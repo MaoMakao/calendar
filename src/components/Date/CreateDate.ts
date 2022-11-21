@@ -4,21 +4,21 @@ interface CreateDateParams {
   date?: Date;
 }
 
-// interface SelectedDate { // Такая хуйян должна присутствовать
-//   date: Date;
-//   dayNumber: number;
-//   day: string;
-//   dayNumberInWeek: number;
-//   dayShort: string;
-//   year: number;
-//   yearShort: string;
-//   month: string;
-//   monthShort: string;
-//   monthNumber: number;
-//   monthIndex: number;
-//   timestamp: number;
-//   week: number;
-// }
+interface SelectedDate { // Такая хуйян должна присутствовать
+  date: Date;
+  dayNumber: number;
+  day: string;
+  dayNumberInWeek: number;
+  dayShort: string;
+  year: number;
+  yearShort: string;
+  month: string;
+  monthShort: string;
+  monthNumber: number;
+  monthIndex: number;
+  timestamp: number;
+  week: number;
+}
 
 const createDate = (params?: CreateDateParams) => { // Типизируй возвращаемое значение
 // const createDate = ({locale, date } : {locale?: string, date?: Date}): SelectedDate => { // Отак пизже

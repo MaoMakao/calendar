@@ -48,65 +48,65 @@ const useCalendar = ({
   );
 
   // Это в компонент дней. Там оно будет принимать селектедДей и парсить из него текущий месяц
-  const calendarDays = useMemo(() => {
-    const monthNumberOfDays = getMonthNumberOfDays(
-      selectedMonth.monthIndex,
-      selectedYear,
-    );
+  // const calendarDays = useMemo(() => {
+  //   const monthNumberOfDays = getMonthNumberOfDays(
+  //     selectedMonth.monthIndex,
+  //     selectedYear,
+  //   );
 
-    const prevMonthDays = createMonth({
-      date: new Date(selectedYear, selectedMonth.monthIndex - 1),
-      locale,
-    }).createMonthDays();
+  //   const prevMonthDays = createMonth({
+  //     date: new Date(selectedYear, selectedMonth.monthIndex - 1),
+  //     locale,
+  //   }).createMonthDays();
 
-    const nextMonthDays = createMonth({
-      date: new Date(selectedYear, selectedMonth.monthIndex + 1),
-      locale,
-    }).createMonthDays();
+  //   const nextMonthDays = createMonth({
+  //     date: new Date(selectedYear, selectedMonth.monthIndex + 1),
+  //     locale,
+  //   }).createMonthDays();
 
-    const firstDay = days[0];
-    const lastDay = days[monthNumberOfDays - 1];
+  //   const firstDay = days[0];
+  //   const lastDay = days[monthNumberOfDays - 1];
 
-    const shiftIndex = firstWeekDayNumber - 1;
+  //   const shiftIndex = firstWeekDayNumber - 1;
 
-    const numberOfPrevDays =
-      firstDay.dayNumberInWeek - 1 - shiftIndex < 0
-        ? 7 - (firstWeekDayNumber - firstDay.dayNumberInWeek)
-        : firstDay.dayNumberInWeek - 1 - shiftIndex;
+  //   const numberOfPrevDays =
+  //     firstDay.dayNumberInWeek - 1 - shiftIndex < 0
+  //       ? 7 - (firstWeekDayNumber - firstDay.dayNumberInWeek)
+  //       : firstDay.dayNumberInWeek - 1 - shiftIndex;
 
-    const numberOfNextDays =
-      7 - lastDay.dayNumberInWeek + shiftIndex > 6
-        ? 7 - lastDay.dayNumberInWeek - (7 - shiftIndex)
-        : 7 - lastDay.dayNumberInWeek + shiftIndex;
+  //   const numberOfNextDays =
+  //     7 - lastDay.dayNumberInWeek + shiftIndex > 6
+  //       ? 7 - lastDay.dayNumberInWeek - (7 - shiftIndex)
+  //       : 7 - lastDay.dayNumberInWeek + shiftIndex;
 
-    const totalCalendarDays = days.length + numberOfNextDays + numberOfPrevDays;
+  //   const totalCalendarDays = days.length + numberOfNextDays + numberOfPrevDays;
 
-    const result = [];
+  //   const result = [];
 
-    // Три почти одинаковых цикла, я б подумал как это сократить
-    for (let i = 0; i < numberOfPrevDays; i += 1) { // Не i+=1 a i++
-      const inverted = numberOfPrevDays - i;
-      result[i] = prevMonthDays[prevMonthDays.length - inverted];
-    }
+  //   // Три почти одинаковых цикла, я б подумал как это сократить
+  //   for (let i = 0; i < numberOfPrevDays; i += 1) { // Не i+=1 a i++
+  //     const inverted = numberOfPrevDays - i;
+  //     result[i] = prevMonthDays[prevMonthDays.length - inverted];
+  //   }
 
-    for (
-      let i = numberOfPrevDays;
-      i < totalCalendarDays - numberOfNextDays;
-      i += 1
-    ) {
-      result[i] = days[i - numberOfPrevDays];
-    }
+  //   for (
+  //     let i = numberOfPrevDays;
+  //     i < totalCalendarDays - numberOfNextDays;
+  //     i += 1
+  //   ) {
+  //     result[i] = days[i - numberOfPrevDays];
+  //   }
 
-    for (
-      let i = totalCalendarDays - numberOfNextDays;
-      i < totalCalendarDays;
-      i += 1
-    ) {
-      result[i] = nextMonthDays[i - totalCalendarDays + numberOfNextDays];
-    }
+  //   for (
+  //     let i = totalCalendarDays - numberOfNextDays;
+  //     i < totalCalendarDays;
+  //     i += 1
+  //   ) {
+  //     result[i] = nextMonthDays[i - totalCalendarDays + numberOfNextDays];
+  //   }
 
-    return result;
-  }, [selectedMonth.year, selectedMonth.monthIndex, selectedYear]);
+  //   return result;
+  // }, [selectedMonth.year, selectedMonth.monthIndex, selectedYear]);
 
   // Это разбить на свитчеры для каждого режима и перенести в календарь.тсх, избавиться от ифов
   const onClickArrow = (direction: 'right' | 'left') => {
@@ -141,6 +141,7 @@ const useCalendar = ({
         direction === 'left'
           ? selectedMonth.monthIndex - 1
           : selectedMonth.monthIndex + 1;
+          
       if (monthIndex === -1) {
         const year = selectedYear - 1;
         setSelectedYear(year);
@@ -176,7 +177,7 @@ const useCalendar = ({
   return {
     state: {
       mode,
-      calendarDays,
+      // calendarDays,
       weekDaysNames,
       monthNames,
       selectedDay,
