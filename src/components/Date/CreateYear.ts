@@ -6,7 +6,7 @@ interface CreateYearParams {
   monthNumber?: number;
 }
 
-const CreateYear = (params?: CreateYearParams) => {
+const CreateYear = (params?: CreateYearParams) => { //  Та ж хуня
   const locale = params?.locale ?? "default";
 
   const monthCount = 12;

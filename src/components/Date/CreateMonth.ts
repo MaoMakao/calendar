@@ -6,7 +6,7 @@ interface CreateMonthParams {
   date?: Date;
 }
 
-const createMonth = (params?: CreateMonthParams) => {
+const createMonth = (params?: CreateMonthParams) => { //Та же хуйня с возвращаемым, и деструктурируй парамс сразу 
   const locale = params?.locale ?? "default";
   const date = params?.date ?? new Date();
 
