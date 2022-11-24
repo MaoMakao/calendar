@@ -62,14 +62,7 @@ const Calendar: React.FC<CalendarProps> = ({
         setMode={setMode}
       />
     ),
-    years: (
-      <RenderYears
-        selectedYear={selectedYear}
-        selectedYearInterval={selectedYearInterval}
-        setMode={setMode}
-        setSelectedYearInterval={setSelectedYearInterval}
-      />
-    ),
+    years: <RenderYears selectedYear={selectedYear} setMode={setMode} />,
   };
 
   return (
