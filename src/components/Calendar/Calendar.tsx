@@ -81,7 +81,7 @@ const Calendar: React.FC<CalendarProps> = ({
             className='w-2 h-4 cursor-pointer bg-gradient-to-t '
             onClick={() => functions.onClickArrow('left')} // Тут из объекта достаешь переключалку для конкретного режима и даешь ей допустим -1
           />
-          {state.mode === 'days' && ( // Тоже сделать объект с этими штуками и доставать нужную по режиму
+          {mode === 'days' && ( // Тоже сделать объект с этими штуками и доставать нужную по режиму
             <div aria-hidden onClick={() => functions.setMode('monthes')}>
               {state.monthNames[state.selectedMonth.monthIndex].month}{' '}
               {state.selectedYear}
@@ -111,7 +111,7 @@ const Calendar: React.FC<CalendarProps> = ({
         </div>
         <div className='rounded-md p-2'>
 
-          {state.mode === 'days' && (
+          {mode === 'days' && (
             <RenderDays
               locale={locale}
               selectedDate={selectedDate}
@@ -161,17 +161,18 @@ const Calendar: React.FC<CalendarProps> = ({
           )}
 
           {/* Чтоб не проверять режим через && */}
-          {/* {renderComponents[mode]}   */}
+          
 
           {/* В отдельный компонент */}
-          {state.mode === 'monthes' && (
-            <RenderMonths
-              locale={locale}
-              selectedDay={selectedDay}
-              selectedMonth={selectedMonth}
-              setSelectedMonth={setSelectedMonth}
-              selectedYear={selectedYear}
-              setMode={setMode}
+        {renderComponents[mode]}
+          {/* {/* // (
+          //   <RenderMonths
+          //     locale={locale}
+          //     selectedDay={selectedDay}
+          //     selectedMonth={selectedMonth}
+          //     setSelectedMonth={setSelectedMonth}
+          //     selectedYear={selectedYear}
+          //     setMode={setMode}
             />
             // <div className='font-normal text-black text-center grid grid-cols-3 grid-rows-4 gap-1 text-xs'>
             //   {state.monthNames.map(monthesName => {
@@ -181,7 +182,7 @@ const Calendar: React.FC<CalendarProps> = ({
             //     const isSelectedMonth =
             //       monthesName.monthIndex === state.selectedMonth.monthIndex;
 
-            //     return (
+            //     return ( */}
             //       <div
             //         key={monthesName.month}
             //         aria-hidden
@@ -199,10 +200,10 @@ const Calendar: React.FC<CalendarProps> = ({
             //     );
             //   })}
             // </div>
-          )}
+           
 
           {/* В отдельный компонент */}
-          {state.mode === 'years' && (
+          {mode === 'years' && (
             <div className='font-normal text-black text-center grid grid-cols-3 grid-rows-4 gap-1 text-xs'>
               <div className='font-light p-2 text-black'>
                 {state.selectedYearInterval[0] - 1}

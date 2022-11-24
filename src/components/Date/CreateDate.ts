@@ -1,31 +1,13 @@
+import { DateType } from '../../Types';
 import { getWeekNumber } from './getWeekNumber';
-interface CreateDateParams {
-  locale?: string;
-  date?: Date;
-}
 
-interface SelectedDate { // Такая хуйян должна присутствовать
-  date: Date;
-  dayNumber: number;
-  day: string;
-  dayNumberInWeek: number;
-  dayShort: string;
-  year: number;
-  yearShort: string;
-  month: string;
-  monthShort: string;
-  monthNumber: number;
-  monthIndex: number;
-  timestamp: number;
-  week: number;
-}
 
-const createDate = (params?: CreateDateParams) => { // Типизируй возвращаемое значение
-// const createDate = ({locale, date } : {locale?: string, date?: Date}): SelectedDate => { // Отак пизже
 
-  const locale = params?.locale ?? 'default';
+ const createDate = ({locale, date } : {locale?: string, date?: Date}): DateType => { // Отак пизже
 
-  const d = params?.date ?? new Date();
+  
+
+  const d = date ?? new Date();
   const dayNumber = d.getDate();
   const day = d.toLocaleDateString(locale, { weekday: 'long' });
   const dayNumberInWeek = d.getDay() + 1;
@@ -57,3 +39,5 @@ const createDate = (params?: CreateDateParams) => { // Типизируй воз
 };
 
 export default createDate;
+
+// +++

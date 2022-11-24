@@ -1,19 +1,17 @@
+import { DateType, MonthType } from './../../Types';
 import createDate from "./CreateDate";
 import { getMonthNumberOfDays } from "./getMonthNumberOfDays";
 
-interface CreateMonthParams {
-  locale?: string;
-  date?: Date;
-}
 
-const createMonth = (params?: CreateMonthParams)  => { //Та же хуйня с возвращаемым, и деструктурируй парамс сразу 
-  const locale = params?.locale ?? "default";
-  const date = params?.date ?? new Date();
+
+const createMonth =({locale, date } : {locale?: string, date?: Date}): MonthType  => { //Та же хуйня с возвращаемым, и деструктурируй парамс сразу 
+  
+  
 
   const d = createDate({ date, locale });
   const { month: monthName, year, monthNumber, monthIndex } = d;
 
-  const getDay = (dayNumber: number) =>
+  const getDay  = (dayNumber: number ) =>
     createDate({
       date: new Date(year, monthIndex, dayNumber),
       locale,
@@ -39,3 +37,5 @@ const createMonth = (params?: CreateMonthParams)  => { //Та же хуйня с
 };
 
 export default createMonth;
+
+// +++

@@ -1,6 +1,5 @@
 import React, { FC } from 'react';
-
-type Modes = 'days' | 'monthes' | 'years';
+import { Modes } from '../../../Types';
 
 interface ModeSwitcherProps {
   setMode: React.Dispatch<React.SetStateAction<Modes>>;

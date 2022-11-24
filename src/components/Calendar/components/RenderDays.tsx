@@ -63,7 +63,7 @@ const RenderDays: FC<RenderDaysProps> = ({
     const result = [];
 
     // Три почти одинаковых цикла, я б подумал как это сократить
-    for (let i = 0; i < numberOfPrevDays; i += 1) {
+    for (let i = 0; i < numberOfPrevDays; i++) {
       // Не i+=1 a i++
       const inverted = numberOfPrevDays - i;
       result[i] = prevMonthDays[prevMonthDays.length - inverted];
@@ -72,7 +72,7 @@ const RenderDays: FC<RenderDaysProps> = ({
     for (
       let i = numberOfPrevDays;
       i < totalCalendarDays - numberOfNextDays;
-      i += 1
+      i ++
     ) {
       result[i] = selectedMonth.createMonthDays()[i - numberOfPrevDays];
     }
