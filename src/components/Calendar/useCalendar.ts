@@ -1,4 +1,3 @@
-import { getMonthNumberOfDays } from './../Date/getMonthNumberOfDays';
 import React, { useState, useMemo } from 'react';
 import createDate from '../Date/CreateDate';
 import getMonthesNames from '../Date/getMonthesNames';
@@ -42,10 +41,10 @@ const useCalendar = ({
     () => getWeekDaysNames(firstWeekDayNumber, locale),
     [],
   );
-  const days = React.useMemo(
-    () => selectedMonth.createMonthDays(),
-    [selectedMonth, selectedYear],
-  );
+  // const days = React.useMemo(
+  //   () => selectedMonth.createMonthDays(),
+  //   [selectedMonth, selectedYear],
+  // );
 
   // Это в компонент дней. Там оно будет принимать селектедДей и парсить из него текущий месяц
   // const calendarDays = useMemo(() => {

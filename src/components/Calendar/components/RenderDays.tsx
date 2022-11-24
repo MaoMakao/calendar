@@ -7,7 +7,6 @@ import { getWeekDaysNames } from '../../Date/getWeekDaysNames';
 
 interface RenderDaysProps {
   locale?: string;
-  selectedDate: Date;
   setSelectedDate: React.Dispatch<React.SetStateAction<Date>>;
   selectedDay: any;
   selectedMonth: any;
@@ -16,7 +15,6 @@ interface RenderDaysProps {
 
 const RenderDays: FC<RenderDaysProps> = ({
   locale,
-  selectedDate,
   setSelectedDate,
   selectedDay,
   selectedMonth,

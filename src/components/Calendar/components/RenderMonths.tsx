@@ -1,10 +1,8 @@
-import React, { FC, useState } from 'react';
-import createMonth from '../../Date/CreateMonth';
+import React, { FC } from 'react';
 import getMonthesNames from '../../Date/getMonthesNames';
 
 interface RenderMonthProps {
   locale: string;
-  selectedDay: any;
   selectedMonth: any;
   selectedYear: number;
   setSelectedMonth: React.Dispatch<React.SetStateAction<any>>;
@@ -13,8 +11,7 @@ interface RenderMonthProps {
 
 const RenderMonths: FC<RenderMonthProps> = ({
   locale,
-  selectedDay,
-  selectedMonth,
+    selectedMonth,
   setSelectedMonth,
   selectedYear,
   setMode,

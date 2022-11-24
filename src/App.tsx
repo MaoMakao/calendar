@@ -1,7 +1,6 @@
 import React from "react";
 import "./App.css";
 import Calendar from "./components/Calendar/Calendar";
-import  createDate  from "./components/Date/CreateDate";
 import formatDate from "./components/Date/formatDate";
 
 const App: React.FC = () => {

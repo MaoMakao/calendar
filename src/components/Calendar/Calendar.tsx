@@ -1,13 +1,12 @@
 import React, { useState } from 'react';
 import useCalendar from './useCalendar';
-import { checkDateIsEqual } from './../Date/CheckDateIsEqual';
-import { checkIsToday } from './../Date/CheckIsToday';
 import arrowLeft from './../images/arrowLeft.svg'; // Добавь в конце пути .svg
 import ModeSwitcher from './components/ModeSwitcher';
 import RenderDays from './components/RenderDays';
 import createDate from '../Date/CreateDate';
 import createMonth from '../Date/CreateMonth';
 import RenderMonths from './components/RenderMonths';
+import RenderYears from './components/RenderYears';
 
 interface CalendarProps {
   locale?: string;
@@ -48,7 +47,6 @@ const Calendar: React.FC<CalendarProps> = ({
     days: (
       <RenderDays
         locale={locale}
-        selectedDate={selectedDate}
         setSelectedDate={setSelectedDate}
         selectedDay={selectedDay}
         selectedMonth={selectedMonth}
@@ -58,14 +56,20 @@ const Calendar: React.FC<CalendarProps> = ({
     monthes: (
       <RenderMonths
         locale={locale}
-        selectedDay={selectedDay}
         selectedMonth={selectedMonth}
         setSelectedMonth={setSelectedMonth}
         selectedYear={selectedYear}
         setMode={setMode}
       />
     ),
-    years: ''
+    years: (
+      <RenderYears
+        selectedYear={selectedYear}
+        selectedYearInterval={selectedYearInterval}
+        setMode={setMode}
+        setSelectedYearInterval={setSelectedYearInterval}
+      />
+    ),
   };
 
   return (
@@ -110,8 +114,7 @@ const Calendar: React.FC<CalendarProps> = ({
           />
         </div>
         <div className='rounded-md p-2'>
-
-          {mode === 'days' && (
+          {/* {mode === 'days' && (
             <RenderDays
               locale={locale}
               selectedDate={selectedDate}
@@ -120,8 +123,8 @@ const Calendar: React.FC<CalendarProps> = ({
               selectedMonth={selectedMonth}
               selectedYear={selectedYear}
             />
-          )}
-            {/* <>
+          )} */}
+          {/* <>
               <div className='h-5 font-semibold text-xs text-center items-center grid grid-cols-7 gap-1 '>
                 {state.weekDaysNames.map(weekDaysName => (
                   <div key={weekDaysName.dayShort}>{weekDaysName.dayShort}</div>
@@ -161,10 +164,9 @@ const Calendar: React.FC<CalendarProps> = ({
             </> */}
 
           {/* Чтоб не проверять режим через && */}
-          
 
           {/* В отдельный компонент */}
-        {renderComponents[mode]}
+          {renderComponents[mode]}
           {/* // (
           //   <RenderMonths
           //     locale={locale}
@@ -200,10 +202,9 @@ const Calendar: React.FC<CalendarProps> = ({
             //     );
             //   })}
             // </div> */}
-           
 
           {/* В отдельный компонент */}
-          {mode === 'years' && (
+          {/* {mode === 'years' && (
             <div className='font-normal text-black text-center grid grid-cols-3 grid-rows-4 gap-1 text-xs'>
               <div className='font-light p-2 text-black'>
                 {state.selectedYearInterval[0] - 1}
@@ -235,7 +236,7 @@ const Calendar: React.FC<CalendarProps> = ({
                 ] + 1}
               </div>
             </div>
-          )}
+          )} */}
         </div>
       </div>
     </>
