@@ -120,52 +120,52 @@ const Calendar: React.FC<CalendarProps> = ({
               selectedMonth={selectedMonth}
               selectedYear={selectedYear}
             />
-            // <>
-            //   <div className='h-5 font-semibold text-xs text-center items-center grid grid-cols-7 gap-1 '>
-            //     {state.weekDaysNames.map(weekDaysName => (
-            //       <div key={weekDaysName.dayShort}>{weekDaysName.dayShort}</div>
-            //     ))}
-            //   </div>
-            //   <div className='text-xs font-normal text-center items-center grid grid-cols-7 grid-rows-1 gap-1'>
-            //     {state.calendarDays.map(day => {
-            //       const isToday = checkIsToday(day.date);
-            //       const isSelectedDay = checkDateIsEqual(
-            //         day.date,
-            //         state.selectedDay.date,
-            //       );
-            //       const isAdditionalDay =
-            //         day.monthIndex !== state.selectedMonth.monthIndex;
-
-            //       return (
-            //         <div
-            //           key={`${day.dayNumber}-${day.monthIndex}`}
-            //           aria-hidden
-            //           onClick={() => {
-            //             functions.setSelectedDay(day);
-            //             setSelectedDate(day.date);
-            //           }}
-            //           className={[
-            //             'rounded-md p-1 cursor-pointer',
-            //             isToday ? 'bg-white' : '',
-            //             isSelectedDay ? 'bg-white text-black' : '',
-            //             isAdditionalDay
-            //               ? 'p-1 font-light cursor-pointer text-black'
-            //               : '',
-            //           ].join(' ')}>
-            //           {day.dayNumber}
-            //         </div>
-            //       );
-            //     })}
-            //   </div>
-            // </>
           )}
+            {/* <>
+              <div className='h-5 font-semibold text-xs text-center items-center grid grid-cols-7 gap-1 '>
+                {state.weekDaysNames.map(weekDaysName => (
+                  <div key={weekDaysName.dayShort}>{weekDaysName.dayShort}</div>
+                ))}
+              </div>
+              <div className='text-xs font-normal text-center items-center grid grid-cols-7 grid-rows-1 gap-1'>
+                {state.calendarDays.map(day => {
+                  const isToday = checkIsToday(day.date);
+                  const isSelectedDay = checkDateIsEqual(
+                    day.date,
+                    state.selectedDay.date,
+                  );
+                  const isAdditionalDay =
+                    day.monthIndex !== state.selectedMonth.monthIndex;
+
+                  return (
+                    <div
+                      key={`${day.dayNumber}-${day.monthIndex}`}
+                      aria-hidden
+                      onClick={() => {
+                        functions.setSelectedDay(day);
+                        setSelectedDate(day.date);
+                      }}
+                      className={[
+                        'rounded-md p-1 cursor-pointer',
+                        isToday ? 'bg-white' : '',
+                        isSelectedDay ? 'bg-white text-black' : '',
+                        isAdditionalDay
+                          ? 'p-1 font-light cursor-pointer text-black'
+                          : '',
+                      ].join(' ')}>
+                      {day.dayNumber}
+                    </div>
+                  );
+                })}
+              </div>
+            </> */}
 
           {/* Чтоб не проверять режим через && */}
           
 
           {/* В отдельный компонент */}
         {renderComponents[mode]}
-          {/* {/* // (
+          {/* // (
           //   <RenderMonths
           //     locale={locale}
           //     selectedDay={selectedDay}
@@ -182,7 +182,7 @@ const Calendar: React.FC<CalendarProps> = ({
             //     const isSelectedMonth =
             //       monthesName.monthIndex === state.selectedMonth.monthIndex;
 
-            //     return ( */}
+            //     return (
             //       <div
             //         key={monthesName.month}
             //         aria-hidden
@@ -199,7 +199,7 @@ const Calendar: React.FC<CalendarProps> = ({
             //       </div>
             //     );
             //   })}
-            // </div>
+            // </div> */}
            
 
           {/* В отдельный компонент */}

@@ -1,6 +1,5 @@
 import React, { FC } from 'react';
 
-
 interface RenderYearsProps {
   locale?: string;
   selectedDate: Date;
@@ -8,10 +7,10 @@ interface RenderYearsProps {
   selectedDay: any;
   selectedMonth: any;
   selectedYear: number;
-selectedYearInterval: number[];
+  selectedYearInterval: number[];
   setSelectedYearInterval: React.Dispatch<React.SetStateAction<number[]>>;
   setMode: React.Dispatch<React.SetStateAction<'days' | 'monthes' | 'years'>>;
-  mode:  "days" | "monthes" | "years";
+  mode: 'days' | 'monthes' | 'years';
 }
 
 const RenderYears: FC<RenderYearsProps> = ({
@@ -23,13 +22,13 @@ const RenderYears: FC<RenderYearsProps> = ({
   selectedYear,
   selectedYearInterval,
   setMode,
-  mode,
-  setSelectedYearInterval
+  mode, //Зачем тут мод?
+  setSelectedYearInterval,
 }) => {
   return (
     <div>
       {' '}
-      {mode === 'years' && (
+      {mode === 'years' && ( // И тут зачем?
         <div className='font-normal text-black text-center grid grid-cols-3 grid-rows-4 gap-1 text-xs'>
           <div className='font-light p-2 text-black'>
             {selectedYearInterval[0] - 1}
@@ -56,8 +55,7 @@ const RenderYears: FC<RenderYearsProps> = ({
             );
           })}
           <div className='font-light p-2 text-black'>
-            {selectedYearInterval[selectedYearInterval.length - 1] +
-              1}
+            {selectedYearInterval[selectedYearInterval.length - 1] + 1}
           </div>
         </div>
       )}
@@ -66,4 +64,3 @@ const RenderYears: FC<RenderYearsProps> = ({
 };
 
 export default RenderYears;
-

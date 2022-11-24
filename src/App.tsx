@@ -3,7 +3,7 @@ import "./App.css";
 import Calendar from "./components/Calendar/Calendar";
 import  createDate  from "./components/Date/CreateDate";
 import formatDate from "./components/Date/formatDate";
-console.log("createDate", createDate() );
+
 const App: React.FC = () => {
   const [selectedDate, setSelectedDate] = React.useState(new Date());
   // Обычно FC, useState и другие хуки импортируют сверху рядом с реактом, никто не пишет постоянно React.ЧтоТо
