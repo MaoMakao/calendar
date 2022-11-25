@@ -34,6 +34,15 @@ const Calendar: React.FC<CalendarProps> = ({
     firstWeekDayNumber,
   });
 
+  const updateSelectedMonth = (monthIndex: number): void => {
+    setSelectedMonth(
+      createMonth({
+        date: new Date(selectedDay.year, monthIndex),
+        locale,
+      }),
+    );
+  };
+// const [selecteDay, setSelectedDay] = useState(createDate({selectedDate}));
   const selectedDay = createDate({ date: selectedDate });
   const [selectedMonth, setSelectedMonth] = useState(
     createMonth({
@@ -57,7 +66,7 @@ const Calendar: React.FC<CalendarProps> = ({
       <RenderMonths
         locale={locale}
         selectedMonth={selectedMonth}
-        setSelectedMonth={setSelectedMonth}
+        setSelectedMonth={updateSelectedMonth}
         selectedYear={selectedYear}
         setMode={setMode}
       />
@@ -78,18 +87,18 @@ const Calendar: React.FC<CalendarProps> = ({
             className='w-2 h-4 cursor-pointer bg-gradient-to-t '
             onClick={() => functions.onClickArrow('left')} // Тут из объекта достаешь переключалку для конкретного режима и даешь ей допустим -1
           />
-          {mode === 'days' && ( // Тоже сделать объект с этими штуками и доставать нужную по режиму
-            <div aria-hidden onClick={() => functions.setMode('monthes')}>
+          {mode === 'days' && (
+            <div aria-hidden>
               {state.monthNames[state.selectedMonth.monthIndex].month}{' '}
-              {state.selectedYear}
+              {selectedMonth.year}
             </div>
           )}
-          {state.mode === 'monthes' && (
+          {mode === 'monthes' && (
             <div aria-hidden onClick={() => functions.setMode('years')}>
               {state.selectedYear}
             </div>
           )}
-          {state.mode === 'years' && (
+          {mode === 'years' && (
             <div>
               {state.selectedYearInterval[0]} -{' '}
               {

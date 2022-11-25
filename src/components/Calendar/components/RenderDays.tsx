@@ -1,4 +1,5 @@
 import React, { FC } from 'react';
+import { DateType, MonthType } from '../../../Types';
 import { checkDateIsEqual } from '../../Date/CheckDateIsEqual';
 import { checkIsToday } from '../../Date/CheckIsToday';
 import createMonth from '../../Date/CreateMonth';
@@ -8,8 +9,8 @@ import { getWeekDaysNames } from '../../Date/getWeekDaysNames';
 interface RenderDaysProps {
   locale?: string;
   setSelectedDate: React.Dispatch<React.SetStateAction<Date>>;
-  selectedDay: any;
-  selectedMonth: any;
+  selectedDay: DateType;
+  selectedMonth: MonthType;
   selectedYear: number;
 }
 

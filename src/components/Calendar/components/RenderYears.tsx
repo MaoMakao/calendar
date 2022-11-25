@@ -37,11 +37,12 @@ const RenderYears: FC<RenderYearsProps> = ({ selectedYear, setMode }) => {
                 onClick={() => {
                   setSelectedYearInterval([year]);
                   setMode('monthes');
+                  //setSelectedDay(createDate(год на котоый ты тыкнул))
                 }}
                 className={[
                   'bg-white',
-                  isCurrentYear ? 'bg-white' : '',
-                  isSelectedYear ? 'text-black bg-white' : '',
+                  isCurrentYear ? 'bg-blue-500' : '',
+                  isSelectedYear ? 'text-black bg-red-600' : '',
                 ].join(' ')}>
                 {year}
               </div>
