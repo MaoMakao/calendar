@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import useCalendar from './useCalendar';
-import arrowLeft from './../images/arrowLeft.svg'; // Добавь в конце пути .svg
+import arrowLeft from './../images/arrowLeft.svg'; 
 import ModeSwitcher from './components/ModeSwitcher';
 import RenderDays from './components/RenderDays';
 import createDate from '../Date/CreateDate';
@@ -28,11 +28,11 @@ const Calendar: React.FC<CalendarProps> = ({
   //  Здесь должен быть стейт режима и стейт дня. Может стейт месяца и года для разных режимов, хз
   const [mode, setMode] = useState<'days' | 'monthes' | 'years'>('monthes');
 
-  const { functions, state } = useCalendar({
-    locale,
-    selectedDate,
-    firstWeekDayNumber,
-  });
+  // const { functions, state } = useCalendar({
+  //   locale,
+  //   selectedDate,
+  //   firstWeekDayNumber,
+  // });
 
   const updateSelectedMonth = (monthIndex: number): void => {
     setSelectedMonth(
@@ -74,11 +74,13 @@ const Calendar: React.FC<CalendarProps> = ({
     years: <RenderYears selectedYear={selectedYear} setMode={setMode} />,
   };
 
+  
+
   return (
     <>
       <ModeSwitcher setMode={setMode} />
 
-      <div className='w-52 rounded-md capitalize bg-white'>
+      {/* <div className='w-52 rounded-md capitalize bg-white'>
         <div className='relative rounded-md bg-white text-black  p-2 flex justify-between items-center shadow-md'>
           <img
             alt='AA'
@@ -239,8 +241,8 @@ const Calendar: React.FC<CalendarProps> = ({
               </div>
             </div>
           )} */}
-        </div>
-      </div>
+        {/* </div> */}
+      {/* </div> */}
     </>
   );
 };
