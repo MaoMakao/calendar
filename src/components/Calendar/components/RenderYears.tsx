@@ -9,10 +9,10 @@ interface RenderYearsProps {
 const RenderYears: FC<RenderYearsProps> = ({ selectedYear, setMode }) => {
   const getYearsInterval = (year: number) => {
     const startYear = Math.floor(year / 10) * 10; // Че тут творится, зачем делить на 10 и умножать на 10
-  return [...Array(10)].map((_, index) => startYear + index);
+    return [...Array(10)].map((_, index) => startYear + index);
   };
 
-  const selectedDay = createDate({});
+
 
   const [selectedYearInterval, setSelectedYearInterval] = useState(
     getYearsInterval(selectedDay.year),
@@ -20,7 +20,6 @@ const RenderYears: FC<RenderYearsProps> = ({ selectedYear, setMode }) => {
 
   return (
     <div>
-      
       {
         <div className='font-normal text-black text-center grid grid-cols-3 grid-rows-4 gap-1 text-xs'>
           <div className='font-light p-2 text-black'>

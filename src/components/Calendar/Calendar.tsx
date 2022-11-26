@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import useCalendar from './useCalendar';
 import arrowLeft from './../images/arrowLeft.svg'; 
 import ModeSwitcher from './components/ModeSwitcher';
@@ -15,9 +15,6 @@ interface CalendarProps {
   firstWeekDayNumber?: number;
 }
 
-// Здесь обьект с компонентами на каждый режим
-
-// И объект с функциями переключалок
 
 const Calendar: React.FC<CalendarProps> = ({
   locale = 'default',
@@ -25,31 +22,32 @@ const Calendar: React.FC<CalendarProps> = ({
   setSelectedDate,
   firstWeekDayNumber = 2,
 }) => {
-  //  Здесь должен быть стейт режима и стейт дня. Может стейт месяца и года для разных режимов, хз
   const [mode, setMode] = useState<'days' | 'monthes' | 'years'>('monthes');
 
-  // const { functions, state } = useCalendar({
-  //   locale,
-  //   selectedDate,
-  //   firstWeekDayNumber,
-  // });
 
-  const updateSelectedMonth = (monthIndex: number): void => {
-    setSelectedMonth(
-      createMonth({
-        date: new Date(selectedDay.year, monthIndex),
-        locale,
-      }),
-    );
-  };
-// const [selecteDay, setSelectedDay] = useState(createDate({selectedDate}));
-  const selectedDay = createDate({ date: selectedDate });
-  const [selectedMonth, setSelectedMonth] = useState(
-    createMonth({
-      date: new Date(selectedDay.year, selectedDay.monthIndex),
-      locale,
-    }),
-  );
+
+  // const updateSelectedMonth = (monthIndex: number): void => {
+  //   setSelectedMonth(
+  //     createMonth({
+  //       date: new Date(selectedDay.year, monthIndex),
+  //       locale,
+  //     }),
+  //   );
+  // };
+  
+const [selectedDay, setSelectedDay] = useState(createDate({ date: selectedDate}));
+  // const selectedDay = createDate({ date: selectedDate });
+
+  // const [selectedMonth, setSelectedMonth] = useState(
+  //   createMonth({
+  //     date: new Date(selectedDay.year, selectedDay.monthIndex),
+  //     locale,
+  //   }),
+  // );
+  const selectedMonth = createMonth({
+    date: new Date(selectedDay.year, selectedDay.monthIndex),
+    locale,
+  });
   const selectedYear = selectedDay.year;
 
   const renderComponents = {
