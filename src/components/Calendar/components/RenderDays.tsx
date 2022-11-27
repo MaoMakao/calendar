@@ -2,6 +2,7 @@ import React, { FC } from 'react';
 import { DateType, MonthType } from '../../../Types';
 import { checkDateIsEqual } from '../../Date/CheckDateIsEqual';
 import { checkIsToday } from '../../Date/CheckIsToday';
+import createDate from '../../Date/CreateDate';
 import createMonth from '../../Date/CreateMonth';
 import { getMonthNumberOfDays } from '../../Date/getMonthNumberOfDays';
 import { getWeekDaysNames } from '../../Date/getWeekDaysNames';
@@ -12,6 +13,7 @@ interface RenderDaysProps {
   selectedDay: DateType;
   selectedMonth: MonthType;
   selectedYear: number;
+  setSelectedDay: React.Dispatch<React.SetStateAction<DateType>>;
 }
 
 const RenderDays: FC<RenderDaysProps> = ({
@@ -20,13 +22,17 @@ const RenderDays: FC<RenderDaysProps> = ({
   selectedDay,
   selectedMonth,
   selectedYear,
+  setSelectedDay
 }) => {
   const firstWeekDayNumber = 2;
+
+
 
   const calendarDays = () => {
     const monthNumberOfDays = getMonthNumberOfDays(
       selectedMonth.monthIndex,
       selectedYear,
+      
     );
 
     const prevMonthDays = createMonth({
@@ -104,7 +110,11 @@ const RenderDays: FC<RenderDaysProps> = ({
             <div
               key={`${day.dayNumber}-${day.monthIndex}`}
               aria-hidden
-              onClick={() => setSelectedDate(day.date)}
+              onClick={() => {
+                setSelectedDate(day.date);
+                setSelectedDay(createDate({ date: day.date }));
+
+              }}
               className={[
                 'rounded-md p-1 cursor-pointer',
                 isToday ? 'bg-white' : '',

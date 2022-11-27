@@ -3,7 +3,7 @@ import { getWeekNumber } from './getWeekNumber';
 
 
 
- const createDate = ({locale, date } : {locale?: string, date?: Date}): DateType => { // Отак пизже
+ const createDate = ({locale, date } : {locale?: string, date?: Date}): DateType => {
 
   
 

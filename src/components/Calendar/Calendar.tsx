@@ -1,6 +1,6 @@
 import React, { useState, useMemo } from 'react';
 import useCalendar from './useCalendar';
-import arrowLeft from './../images/arrowLeft.svg'; 
+import arrowLeft from './../images/arrowLeft.svg';
 import ModeSwitcher from './components/ModeSwitcher';
 import RenderDays from './components/RenderDays';
 import createDate from '../Date/CreateDate';
@@ -15,7 +15,6 @@ interface CalendarProps {
   firstWeekDayNumber?: number;
 }
 
-
 const Calendar: React.FC<CalendarProps> = ({
   locale = 'default',
   selectedDate,
@@ -23,8 +22,6 @@ const Calendar: React.FC<CalendarProps> = ({
   firstWeekDayNumber = 2,
 }) => {
   const [mode, setMode] = useState<'days' | 'monthes' | 'years'>('monthes');
-
-
 
   // const updateSelectedMonth = (monthIndex: number): void => {
   //   setSelectedMonth(
@@ -34,8 +31,10 @@ const Calendar: React.FC<CalendarProps> = ({
   //     }),
   //   );
   // };
-  
-const [selectedDay, setSelectedDay] = useState(createDate({ date: selectedDate}));
+
+  const [selectedDay, setSelectedDay] = useState(
+    createDate({ date: selectedDate }),
+  );
   // const selectedDay = createDate({ date: selectedDate });
 
   // const [selectedMonth, setSelectedMonth] = useState(
@@ -50,6 +49,8 @@ const [selectedDay, setSelectedDay] = useState(createDate({ date: selectedDate})
   });
   const selectedYear = selectedDay.year;
 
+  // console.log(selectedDay);
+
   const renderComponents = {
     days: (
       <RenderDays
@@ -58,21 +59,26 @@ const [selectedDay, setSelectedDay] = useState(createDate({ date: selectedDate})
         selectedDay={selectedDay}
         selectedMonth={selectedMonth}
         selectedYear={selectedYear}
+        setSelectedDay={setSelectedDay}
       />
     ),
     monthes: (
       <RenderMonths
         locale={locale}
         selectedMonth={selectedMonth}
-        setSelectedMonth={updateSelectedMonth}
+        setSelectedDay={setSelectedDay}
         selectedYear={selectedYear}
         setMode={setMode}
       />
     ),
-    years: <RenderYears selectedYear={selectedYear} setMode={setMode} />,
+    years: (
+      <RenderYears
+        selectedYear={selectedYear}
+        setMode={setMode}
+        setSelectedDay={setSelectedDay}
+      />
+    ),
   };
-
-  
 
   return (
     <>
@@ -126,7 +132,7 @@ const [selectedDay, setSelectedDay] = useState(createDate({ date: selectedDate})
               selectedYear={selectedYear}
             />
           )} */}
-          {/* <>
+      {/* <>
               <div className='h-5 font-semibold text-xs text-center items-center grid grid-cols-7 gap-1 '>
                 {state.weekDaysNames.map(weekDaysName => (
                   <div key={weekDaysName.dayShort}>{weekDaysName.dayShort}</div>
@@ -165,11 +171,11 @@ const [selectedDay, setSelectedDay] = useState(createDate({ date: selectedDate})
               </div>
             </> */}
 
-          {/* Чтоб не проверять режим через && */}
+      {/* Чтоб не проверять режим через && */}
 
-          {/* В отдельный компонент */}
-          {renderComponents[mode]}
-          {/* // (
+      {/* В отдельный компонент */}
+      {renderComponents[mode]}
+      {/* // (
           //   <RenderMonths
           //     locale={locale}
           //     selectedDay={selectedDay}
@@ -205,8 +211,8 @@ const [selectedDay, setSelectedDay] = useState(createDate({ date: selectedDate})
             //   })}
             // </div> */}
 
-          {/* В отдельный компонент */}
-          {/* {mode === 'years' && (
+      {/* В отдельный компонент */}
+      {/* {mode === 'years' && (
             <div className='font-normal text-black text-center grid grid-cols-3 grid-rows-4 gap-1 text-xs'>
               <div className='font-light p-2 text-black'>
                 {state.selectedYearInterval[0] - 1}
@@ -239,7 +245,7 @@ const [selectedDay, setSelectedDay] = useState(createDate({ date: selectedDate})
               </div>
             </div>
           )} */}
-        {/* </div> */}
+      {/* </div> */}
       {/* </div> */}
     </>
   );

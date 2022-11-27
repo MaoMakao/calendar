@@ -1,21 +1,31 @@
 import React, { FC, useState } from 'react';
+import { DateType } from '../../../Types';
 import createDate from './../../Date/CreateDate';
 
 interface RenderYearsProps {
   selectedYear: number;
   setMode: React.Dispatch<React.SetStateAction<'days' | 'monthes' | 'years'>>;
+  setSelectedDay: React.Dispatch<React.SetStateAction<DateType>>;
 }
 
-const RenderYears: FC<RenderYearsProps> = ({ selectedYear, setMode }) => {
+const RenderYears: FC<RenderYearsProps> = ({
+  selectedYear,
+  setMode,
+  setSelectedDay,
+}) => {
   const getYearsInterval = (year: number) => {
     const startYear = Math.floor(year / 10) * 10; // Че тут творится, зачем делить на 10 и умножать на 10
     return [...Array(10)].map((_, index) => startYear + index);
   };
 
-
+  const updateSelectedYear = (year: number): void => {
+    const dayIndex = 1;
+    const monthIndex = 0;
+    setSelectedDay(createDate({ date: new Date(year, monthIndex, dayIndex) }));
+  };
 
   const [selectedYearInterval, setSelectedYearInterval] = useState(
-    getYearsInterval(selectedDay.year),
+    getYearsInterval(selectedYear),
   );
 
   return (
@@ -34,9 +44,9 @@ const RenderYears: FC<RenderYearsProps> = ({ selectedYear, setMode }) => {
                 key={year}
                 aria-hidden
                 onClick={() => {
-                  setSelectedYearInterval([year]);
+                  // setSelectedYearInterval([year]);
                   setMode('monthes');
-                  //setSelectedDay(createDate(год на котоый ты тыкнул))
+                  updateSelectedYear(year);
                 }}
                 className={[
                   'bg-white',
