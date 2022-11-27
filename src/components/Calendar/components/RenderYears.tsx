@@ -1,6 +1,7 @@
-import React, { FC, useState } from 'react';
+import React, { FC } from 'react';
 import { DateType } from '../../../Types';
 import createDate from './../../Date/CreateDate';
+import { getYearsInterval } from './../../Date/getYearsInterval';
 
 interface RenderYearsProps {
   selectedYear: number;
@@ -13,10 +14,7 @@ const RenderYears: FC<RenderYearsProps> = ({
   setMode,
   setSelectedDay,
 }) => {
-  const getYearsInterval = (year: number) => {
-    const startYear = Math.floor(year / 10) * 10; // Че тут творится, зачем делить на 10 и умножать на 10
-    return [...Array(10)].map((_, index) => startYear + index);
-  };
+  
 
   const updateSelectedYear = (year: number): void => {
     const dayIndex = 1;
@@ -24,10 +22,7 @@ const RenderYears: FC<RenderYearsProps> = ({
     setSelectedDay(createDate({ date: new Date(year, monthIndex, dayIndex) }));
   };
 
-  const [selectedYearInterval, setSelectedYearInterval] = useState(
-    getYearsInterval(selectedYear),
-  );
-
+  const selectedYearInterval = getYearsInterval(selectedYear);
   return (
     <div>
       {
@@ -44,7 +39,6 @@ const RenderYears: FC<RenderYearsProps> = ({
                 key={year}
                 aria-hidden
                 onClick={() => {
-                  // setSelectedYearInterval([year]);
                   setMode('monthes');
                   updateSelectedYear(year);
                 }}
