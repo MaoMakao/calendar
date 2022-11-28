@@ -38,30 +38,30 @@ const RenderDays: FC<RenderDaysProps> = ({
     const prevMonthDays = createMonth({
       date: new Date(selectedYear, selectedMonth.monthIndex - 1),
       locale,
-    }).createMonthDays();
+    }).getArrayOfDates();
 
     const nextMonthDays = createMonth({
       date: new Date(selectedYear, selectedMonth.monthIndex + 1),
       locale,
-    }).createMonthDays();
+    }).getArrayOfDates();
 
-    const firstDay = selectedMonth.createMonthDays()[0];
-    const lastDay = selectedMonth.createMonthDays()[monthNumberOfDays - 1];
+    const firstDay = selectedMonth.getArrayOfDates()[0];
+    const lastDay = selectedMonth.getArrayOfDates()[monthNumberOfDays - 1];
 
     const shiftIndex = firstWeekDayNumber - 1;
 
     const numberOfPrevDays =
-      firstDay.dayNumberInWeek - 1 - shiftIndex < 0
-        ? 7 - (firstWeekDayNumber - firstDay.dayNumberInWeek)
-        : firstDay.dayNumberInWeek - 1 - shiftIndex;
+      firstDay.getDay() - shiftIndex < 0
+        ? 7 - (firstWeekDayNumber - firstDay.getDay())
+        : firstDay.getDay() - shiftIndex;
 
     const numberOfNextDays =
-      7 - lastDay.dayNumberInWeek + shiftIndex > 6
-        ? 7 - lastDay.dayNumberInWeek - (7 - shiftIndex)
-        : 7 - lastDay.dayNumberInWeek + shiftIndex;
+      7 - lastDay.getDay() + shiftIndex > 6
+        ? 7 - lastDay.getDay() - (7 - shiftIndex) - 1
+        : 7 - lastDay.getDay() + shiftIndex - 1 ;
 
     const totalCalendarDays =
-      selectedMonth.createMonthDays().length +
+      selectedMonth.getArrayOfDates().length +
       numberOfNextDays +
       numberOfPrevDays;
 
@@ -79,16 +79,19 @@ const RenderDays: FC<RenderDaysProps> = ({
       i < totalCalendarDays - numberOfNextDays;
       i ++
     ) {
-      result[i] = selectedMonth.createMonthDays()[i - numberOfPrevDays];
+      
+      result[i] = selectedMonth.getArrayOfDates()[i - numberOfPrevDays];
     }
-
+    
     for (
       let i = totalCalendarDays - numberOfNextDays;
       i < totalCalendarDays;
       i += 1
-    ) {
+      ) {
+      // console.log('l');
       result[i] = nextMonthDays[i - totalCalendarDays + numberOfNextDays];
     }
+    // console.log(result);
 
     return result;
   };
@@ -102,17 +105,17 @@ const RenderDays: FC<RenderDaysProps> = ({
       </div>
       <div className='text-xs font-normal text-center items-center grid grid-cols-7 grid-rows-1 gap-1'>
         {calendarDays().map(day => {
-          const isToday = checkIsToday(day.date);
-          const isSelectedDay = checkDateIsEqual(day.date, selectedDay.date);
-          const isAdditionalDay = day.monthIndex !== selectedMonth.monthIndex;
+          const isToday = checkIsToday(day);
+          const isSelectedDay = checkDateIsEqual(day, selectedDay.date);
+          const isAdditionalDay = day.getMonth() !== selectedMonth.monthIndex;
 
           return (
             <div
-              key={`${day.dayNumber}-${day.monthIndex}`}
+              key={day.getTime()}
               aria-hidden
               onClick={() => {
-                setSelectedDate(day.date);
-                setSelectedDay(createDate({ date: day.date }));
+                setSelectedDate(day);
+                setSelectedDay(createDate({ date: day }));
 
               }}
               className={[
@@ -123,7 +126,7 @@ const RenderDays: FC<RenderDaysProps> = ({
                   ? 'p-1 font-light cursor-pointer text-black'
                   : '',
               ].join(' ')}>
-              {day.dayNumber}
+              {day.getDate()}
             </div>
           );
         })}
