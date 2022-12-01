@@ -145,7 +145,7 @@ const Calendar: React.FC<CalendarProps> = ({
             alt='AA'
             src={arrowLeft}
             aria-hidden
-            className='w-2 h-4 cursor-pointer bg-gradient-to-t '
+            className='w-4 h-4  cursor-pointer bg-slate-800 rounded-lg '
             onClick={() => onClickArrow[mode](-1)} // Тут из объекта достаешь переключалку для конкретного режима и даешь ей допустим -1
           />
           {mode === 'days' && (
@@ -173,7 +173,7 @@ const Calendar: React.FC<CalendarProps> = ({
             alt='AA'
             src={arrowLeft}
             aria-hidden
-            className='w-2 h-4 cursor-pointer  rotate-180'
+            className='w-4 h-4  cursor-pointer bg-slate-800 rounded-lg rotate-180'
             onClick={() => onClickArrow[mode](1)}
           />
         </div>

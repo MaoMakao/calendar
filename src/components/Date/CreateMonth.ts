@@ -1,4 +1,4 @@
-import { DateType, MonthType } from './../../Types';
+import {  MonthType } from './../../Types';
 import createDate from './CreateDate';
 import { getMonthNumberOfDays } from './getMonthNumberOfDays';
 
