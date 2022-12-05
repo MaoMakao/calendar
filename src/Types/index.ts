@@ -17,20 +17,20 @@ export type DateType = {
 };
 
 export type MonthType = {
+ 
   monthName: string;
   monthIndex: number;
   monthNumber: number;
   year: number;
   getDay: (dayNumber: number) => DateType;
   createMonthDays: () => DateType[];
-  getArrayOfDates: () => Date[];
 };
 
 export type CreateYearType = {
   createYearMonthes: () => DateType[][];
   month: MonthType;
   year: number;
-};
+}
 
 // export type GetMonthesNamesType = {
 //   const monthesNames: {
