@@ -1,169 +1,185 @@
-import React from "react";
-import useCalendar from "./useCalendar";
-import { checkDateIsEqual } from "./../Date/CheckDateIsEqual";
-import { checkIsToday } from "./../Date/CheckIsToday";
-// import arrowLeft from './../images/arrowLeft'
+import React, { useState } from 'react';
+import arrowLeft from './../images/arrowLeft.svg';
+import ModeSwitcher from './components/ModeSwitcher';
+import RenderDays from './components/RenderDays';
+import createDate from '../Date/CreateDate';
+import createMonth from '../Date/CreateMonth';
+import RenderMonths from './components/RenderMonths';
+import RenderYears from './components/RenderYears';
+import getMonthesNames from './../Date/getMonthesNames';
+import { getYearsInterval } from './../Date/getYearsInterval';
 
 interface CalendarProps {
   locale?: string;
   selectedDate: Date;
-  selectDate: (date: Date) => void;
+  setSelectedDate: React.Dispatch<React.SetStateAction<Date>>;
   firstWeekDayNumber?: number;
 }
 
 const Calendar: React.FC<CalendarProps> = ({
-  locale = "default",
-  selectedDate: date,
-  selectDate,
+  locale = 'default',
+  selectedDate,
+  setSelectedDate,
   firstWeekDayNumber = 2,
 }) => {
-  const { functions, state } = useCalendar({
+  const [mode, setMode] = useState<'days' | 'monthes' | 'years'>('monthes');
+
+  // const updateSelectedMonth = (monthIndex: number): void => {
+  //   setSelectedMonth(
+  //     createMonth({
+  //       date: new Date(selectedDay.year, monthIndex),
+  //       locale,
+  //     }),
+  //   );
+  // };
+
+  const [selectedDay, setSelectedDay] = useState(
+    createDate({ date: selectedDate }),
+  );
+  // const selectedDay = createDate({ date: selectedDate });
+
+  // const [selectedMonth, setSelectedMonth] = useState(
+  //   createMonth({
+  //     date: new Date(selectedDay.year, selectedDay.monthIndex),
+  //     locale,
+  //   }),
+  // );
+  const selectedMonth = createMonth({
+    date: new Date(selectedDay.year, selectedDay.monthIndex),
     locale,
-    selectedDate: date,
-    firstWeekDayNumber,
   });
+  const selectedYear = selectedDay.year;
+
+  // console.log(selectedDay);
+
+  const renderComponents = {
+    days: (
+      <RenderDays
+        locale={locale}
+        setSelectedDate={setSelectedDate}
+        selectedDay={selectedDay}
+        selectedMonth={selectedMonth}
+        selectedYear={selectedYear}
+        setSelectedDay={setSelectedDay}
+      />
+    ),
+    monthes: (
+      <RenderMonths
+        locale={locale}
+        selectedMonth={selectedMonth}
+        setSelectedDay={setSelectedDay}
+        selectedYear={selectedYear}
+        setMode={setMode}
+      />
+    ),
+    years: (
+      <RenderYears
+        selectedYear={selectedYear}
+        setMode={setMode}
+        setSelectedDay={setSelectedDay}
+      />
+    ),
+  };
+
+  const onClickArrow = {
+    years: (direction: -1 | 1): void => {
+      const tenYears = direction * 10;
+      setSelectedDay(
+        createDate({
+          date: new Date(
+            selectedYear + tenYears,
+            selectedMonth.monthIndex,
+            selectedDay.dayNumber,
+          ),
+        }),
+      );
+    },
+    monthes: (direction: -1 | 1): void => {
+      setSelectedDay(
+        createDate({
+          date: new Date(
+            selectedYear + direction,
+            selectedMonth.monthIndex,
+            selectedDay.dayNumber,
+          ),
+        }),
+      );
+    },
+    days: (direction: -1 | 1): void => {
+      if (selectedMonth.monthIndex + direction > 11) {
+        setSelectedDay(
+          createDate({
+            date: new Date(selectedYear + direction, 0, selectedDay.dayNumber),
+          }),
+        );
+        return;
+      }
+      if (selectedMonth.monthIndex + direction < 0) {
+        setSelectedDay(
+          createDate({
+            date: new Date(selectedYear + direction, 11, selectedDay.dayNumber),
+          }),
+        );
+        return;
+      }
+
+      setSelectedDay(
+        createDate({
+          date: new Date(
+            selectedYear,
+            selectedMonth.monthIndex + direction,
+            selectedDay.dayNumber,
+          ),
+        }),
+      );
+    },
+  };
 
   return (
-    <div className="w-52 rounded-md capitalize bg-white">
-      <div className="relative rounded-md bg-white text-black  p-2 flex justify-between items-center shadow-md">
-        <img 
-        alt="AA"
-        // src={arrowLeft}
-          aria-hidden
-          className="w-2 h-4 cursor-pointer bg-gradient-to-t "
-          onClick={() => functions.onClickArrow("left")}
-        />
-        {state.mode === "days" && (
-          <div aria-hidden onClick={() => functions.setMode("monthes")}>
-            {state.monthNames[state.selectedMonth.monthIndex].month}{" "}
-            {state.selectedYear}
-          </div>
-        )}
-        {state.mode === "monthes" && (
-          <div aria-hidden onClick={() => functions.setMode("years")}>
-            {state.selectedYear}
-          </div>
-        )}
-        {state.mode === "years" && (
-          <div>
-            {state.selectedYearInterval[0]} -{" "}
-            {state.selectedYearInterval[state.selectedYearInterval.length - 1]}
-          </div>
-        )}
-        <img 
-        alt="AA"
-          aria-hidden
-          className="w-2 h-4 cursor-pointer bg-gradient-to-t transform"
-          onClick={() => functions.onClickArrow("right")}
-        />
-      </div>
-      <div className="rounded-md p-2">
-        {state.mode === "days" && (
-          <>
-            <div className="h-5 font-semibold text-xs text-center items-center grid grid-cols-7 gap-1 ">
-              {state.weekDaysNames.map((weekDaysName) => (
-                <div key={weekDaysName.dayShort}>{weekDaysName.dayShort}</div>
-              ))}
+    <div>
+      <ModeSwitcher setMode={setMode} />
+
+      <div className='w-52 rounded-md capitalize bg-white'>
+        <div className='relative rounded-md bg-white text-black  p-2 flex justify-between items-center shadow-md'>
+          <img
+            alt='AA'
+            src={arrowLeft}
+            aria-hidden
+            className='w-2 h-4 cursor-pointer bg-gradient-to-t '
+            onClick={() => onClickArrow[mode](-1)} // Тут из объекта достаешь переключалку для конкретного режима и даешь ей допустим -1
+          />
+          {mode === 'days' && (
+            <div aria-hidden>
+              {getMonthesNames(locale)[selectedMonth.monthIndex].month}{' '}
+              {selectedYear}
             </div>
-            <div className="text-xs font-normal text-center items-center grid grid-cols-7 grid-rows-1 gap-1">
-              {state.calendarDays.map((day) => {
-                const isToday = checkIsToday(day.date);
-                const isSelectedDay = checkDateIsEqual(
-                  day.date,
-                  state.selectedDay.date
-                );
-                const isAdditionalDay =
-                  day.monthIndex !== state.selectedMonth.monthIndex;
-
-                return (
-                  <div
-                    key={`${day.dayNumber}-${day.monthIndex}`}
-                    aria-hidden
-                    onClick={() => {
-                      functions.setSelectedDay(day);
-                      selectDate(day.date);
-                    }}
-                    className={[
-                      "rounded-md p-1 cursor-pointer",
-                      isToday ? "bg-white" : "",
-                      isSelectedDay ? "bg-white text-black" : "",
-                      isAdditionalDay
-                        ? "p-1 font-light cursor-pointer text-black"
-                        : "",
-                    ].join(" ")}
-                  >
-                    {day.dayNumber}
-                  </div>
-                );
-              })}
+          )}
+          {mode === 'monthes' && (
+            <div aria-hidden onClick={() => setMode('years')}>
+              {selectedYear}
             </div>
-          </>
-        )}
-
-        {state.mode === "monthes" && (
-          <div className="font-normal text-black text-center grid grid-cols-3 grid-rows-4 gap-1 text-xs">
-            {state.monthNames.map((monthesName) => {
-              const isCurrentMonth =
-                new Date().getMonth() === monthesName.monthIndex &&
-                state.selectedYear === new Date().getFullYear();
-              const isSelectedMonth =
-                monthesName.monthIndex === state.selectedMonth.monthIndex;
-
-              return (
-                <div
-                  key={monthesName.month}
-                  aria-hidden
-                  onClick={() => {
-                    functions.setSelectedMonthByIndex(monthesName.monthIndex);
-                    functions.setMode("days");
-                  }}
-                  className={[
-                    "p-2 flex justify-center items-center cursor-pointer rounded-md",
-                    isSelectedMonth ? "text-black bg-white " : "",
-                    isCurrentMonth ? "bg-white" : "",
-                  ].join(" ")}
-                >
-                  {monthesName.monthShort}
-                </div>
-              );
-            })}
-          </div>
-        )}
-
-        {state.mode === "years" && (
-          <div className="font-normal text-black text-center grid grid-cols-3 grid-rows-4 gap-1 text-xs">
-            <div className="font-light p-2 text-black">
-              {state.selectedYearInterval[0] - 1}
+          )}
+          {mode === 'years' && (
+            <div>
+              {getYearsInterval(selectedYear)[0]} -{' '}
+              {
+                getYearsInterval(selectedYear)[
+                  getYearsInterval(selectedYear).length - 1
+                ]
+              }
             </div>
-            {state.selectedYearInterval.map((year) => {
-              const isCurrentYear = new Date().getFullYear() === year;
-              const isSelectedYear = year === state.selectedYear;
+          )}
+          <img
+            alt='AA'
+            src={arrowLeft}
+            aria-hidden
+            className='w-2 h-4 cursor-pointer  rotate-180'
+            onClick={() => onClickArrow[mode](1)}
+          />
+        </div>
+        {/* <div className='rounded-md p-2'> */}
 
-              return (
-                <div
-                  key={year}
-                  aria-hidden
-                  onClick={() => {
-                    functions.setSelectedYear(year);
-                    functions.setMode("monthes");
-                  }}
-                  className={[
-                    "bg-white",
-                    isCurrentYear ? "bg-white" : "",
-                    isSelectedYear ? "text-black bg-white" : "",
-                  ].join(" ")}
-                >
-                  {year}
-                </div>
-              );
-            })}
-            <div className="font-light p-2 text-black">
-              {state.selectedYearInterval[
-                state.selectedYearInterval.length - 1
-              ] + 1}
-            </div>
-          </div>
-        )}
+        {renderComponents[mode]}
       </div>
     </div>
   );

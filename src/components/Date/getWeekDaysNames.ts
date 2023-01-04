@@ -3,7 +3,7 @@ import createDate from "./CreateDate";
 export const getWeekDaysNames = (
   firstWeekDay: number = 4,
   locale: string = "default"
-) => {
+) => { //!
   const weekDaysNames: {
     day: ReturnType<typeof createDate>["day"];
     dayShort: ReturnType<typeof createDate>["dayShort"];
