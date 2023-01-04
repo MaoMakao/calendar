@@ -24,33 +24,15 @@ const Calendar: React.FC<CalendarProps> = ({
 }) => {
   const [mode, setMode] = useState<'days' | 'monthes' | 'years'>('monthes');
 
-  // const updateSelectedMonth = (monthIndex: number): void => {
-  //   setSelectedMonth(
-  //     createMonth({
-  //       date: new Date(selectedDay.year, monthIndex),
-  //       locale,
-  //     }),
-  //   );
-  // };
-
   const [selectedDay, setSelectedDay] = useState(
     createDate({ date: selectedDate }),
   );
-  // const selectedDay = createDate({ date: selectedDate });
 
-  // const [selectedMonth, setSelectedMonth] = useState(
-  //   createMonth({
-  //     date: new Date(selectedDay.year, selectedDay.monthIndex),
-  //     locale,
-  //   }),
-  // );
   const selectedMonth = createMonth({
     date: new Date(selectedDay.year, selectedDay.monthIndex),
     locale,
   });
   const selectedYear = selectedDay.year;
-
-  // console.log(selectedDay);
 
   const renderComponents = {
     days: (
