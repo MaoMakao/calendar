@@ -32,12 +32,10 @@ export type CreateYearType = {
   year: number;
 };
 
-// export type GetMonthesNamesType = {
-//   const monthesNames: {
-//     month: ReturnType<typeof createDate>['month'];
-//     monthShort: ReturnType<typeof createDate>['monthShort'];
-//     monthIndex: ReturnType<typeof createDate>['monthIndex'];
-//     date: ReturnType<typeof createDate>['date'];
-// }[]
-
-// }
+export interface IList {
+  text: string;
+  checked: boolean;
+  id: number;
+  // __typename?: string;
+  time: number;
+}
