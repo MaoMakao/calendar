@@ -24,14 +24,7 @@ const RenderMonths: FC<RenderMonthProps> = ({
       createDate({ date: new Date(selectedYear, monthIndex, dayIndex) }),
     );
   };
-  // monthIndex, year, dayIndex=1
 
-  // const [selectedMonth, setSelectedMonth] = useState(
-  //   createMonth({
-  //     date: new Date(selectedDay.year, selectedDay.monthIndex),
-  //     locale,
-  //   }),
-  // );
   return (
     <div className='font-normal text-black text-center grid grid-cols-3 grid-rows-4 gap-1 text-xs'>
       {getMonthesNames(locale).map(monthesName => {

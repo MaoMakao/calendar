@@ -11,8 +11,8 @@ import { getYearsInterval } from './../Date/getYearsInterval';
 
 interface CalendarProps {
   locale?: string;
-  selectedDate: Date;
-  setSelectedDate: React.Dispatch<React.SetStateAction<Date>>;
+  selectedDate: Date | null;
+  setSelectedDate: React.Dispatch<React.SetStateAction<Date | null>>;
   firstWeekDayNumber?: number;
 }
 
@@ -25,7 +25,7 @@ const Calendar: React.FC<CalendarProps> = ({
   const [mode, setMode] = useState<'days' | 'monthes' | 'years'>('monthes');
 
   const [selectedDay, setSelectedDay] = useState(
-    createDate({ date: selectedDate }),
+    createDate({ date: new Date()}),
   );
 
   const selectedMonth = createMonth({

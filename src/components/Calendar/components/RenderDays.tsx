@@ -6,10 +6,11 @@ import createDate from '../../Date/CreateDate';
 import createMonth from '../../Date/CreateMonth';
 import { getMonthNumberOfDays } from '../../Date/getMonthNumberOfDays';
 import { getWeekDaysNames } from '../../Date/getWeekDaysNames';
+import CardOfToDos from './../../ToDos/CardOfToDos';
 
 interface RenderDaysProps {
   locale?: string;
-  setSelectedDate: React.Dispatch<React.SetStateAction<Date>>;
+  setSelectedDate: React.Dispatch<React.SetStateAction<Date | null>>;
   selectedDay: DateType;
   selectedMonth: MonthType;
   selectedYear: number;
@@ -22,17 +23,14 @@ const RenderDays: FC<RenderDaysProps> = ({
   selectedDay,
   selectedMonth,
   selectedYear,
-  setSelectedDay
+  setSelectedDay,
 }) => {
   const firstWeekDayNumber = 2;
-
-
 
   const calendarDays = () => {
     const monthNumberOfDays = getMonthNumberOfDays(
       selectedMonth.monthIndex,
       selectedYear,
-      
     );
 
     const prevMonthDays = createMonth({
@@ -58,7 +56,7 @@ const RenderDays: FC<RenderDaysProps> = ({
     const numberOfNextDays =
       7 - lastDay.getDay() + shiftIndex > 6
         ? 7 - lastDay.getDay() - (7 - shiftIndex) - 1
-        : 7 - lastDay.getDay() + shiftIndex - 1 ;
+        : 7 - lastDay.getDay() + shiftIndex - 1;
 
     const totalCalendarDays =
       selectedMonth.getArrayOfDates().length +
@@ -77,21 +75,18 @@ const RenderDays: FC<RenderDaysProps> = ({
     for (
       let i = numberOfPrevDays;
       i < totalCalendarDays - numberOfNextDays;
-      i ++
+      i++
     ) {
-      
       result[i] = selectedMonth.getArrayOfDates()[i - numberOfPrevDays];
     }
-    
+
     for (
       let i = totalCalendarDays - numberOfNextDays;
       i < totalCalendarDays;
       i += 1
-      ) {
-      // console.log('l');
+    ) {
       result[i] = nextMonthDays[i - totalCalendarDays + numberOfNextDays];
     }
-    // console.log(result);
 
     return result;
   };
@@ -112,16 +107,15 @@ const RenderDays: FC<RenderDaysProps> = ({
           return (
             <div
               key={day.getTime()}
-              aria-hidden
+              // aria-hidden
               onClick={() => {
-                setSelectedDate(day);
+                 setSelectedDate(day);
                 setSelectedDay(createDate({ date: day }));
-
               }}
               className={[
                 'rounded-md p-1 cursor-pointer',
-                isToday ? 'bg-white' : '',
-                isSelectedDay ? 'bg-white text-black' : '',
+                isToday ? 'bg-violet-300' : '',
+                isSelectedDay ? 'bg-red-600 text-black' : '',
                 isAdditionalDay
                   ? 'p-1 font-light cursor-pointer text-black'
                   : '',
