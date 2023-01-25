@@ -6,7 +6,6 @@ import CardOfToDos from './components/ToDos/CardOfToDos';
 
 const App: React.FC = () => {
   const [selectedDate, setSelectedDate] = React.useState<Date | null>(null);
-  // Обычно FC, useState и другие хуки импортируют сверху рядом с реактом, никто не пишет постоянно React.ЧтоТо
 
   return (
     <div className='flex justify-center items-center bg-green-300 flex-col m-auto h-screen '>

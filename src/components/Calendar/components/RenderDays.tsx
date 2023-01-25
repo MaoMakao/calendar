@@ -67,7 +67,6 @@ const RenderDays: FC<RenderDaysProps> = ({
 
     // Три почти одинаковых цикла, я б подумал как это сократить
     for (let i = 0; i < numberOfPrevDays; i++) {
-      // Не i+=1 a i++
       const inverted = numberOfPrevDays - i;
       result[i] = prevMonthDays[prevMonthDays.length - inverted];
     }
@@ -107,7 +106,6 @@ const RenderDays: FC<RenderDaysProps> = ({
           return (
             <div
               key={day.getTime()}
-              // aria-hidden
               onClick={() => {
                  setSelectedDate(day);
                 setSelectedDay(createDate({ date: day }));

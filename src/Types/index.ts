@@ -41,3 +41,21 @@ export type CreateYearType = {
 // }[]
 
 // }
+export interface IToDo {
+  text: string;
+  checked: boolean;
+  id: number;
+  time: string;
+  __typename?: string;
+
+}
+
+export interface allTodosCache {
+  allTodos: IToDo[];
+}
+
+export interface ITodoItemProps {
+  item: IToDo;
+  handleRemove: (options: { variables: { id: number } }) => void;
+  handleUpdate: (options: { variables: IToDo }) => void;
+}

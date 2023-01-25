@@ -36,7 +36,7 @@ export const UPDATE_TODOS = gql`
   }
 `;
 
-export const REMOVE_TODO = gql`
+export const REMOVE_TODOS = gql`
   mutation removeDay($id: ID!) {
     removeDay(id: $id) {
       id
