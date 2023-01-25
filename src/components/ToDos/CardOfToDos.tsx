@@ -12,16 +12,25 @@ import CachedIcon from '@mui/icons-material/Cached';
 import CloseIcon from '@mui/icons-material/Close';
 import { allTodosCache, IToDo } from '../../Types';
 import TodoItem from './ToDoItem';
+import { useEffect } from 'react';
 
 interface CardOfToDosProps {
   setSelectedDate: React.Dispatch<React.SetStateAction<Date | null>>;
+  selectedDate: Date | null;
 }
 
-const CardOfToDos: FC<CardOfToDosProps> = ({ setSelectedDate }) => {
+const CardOfToDos: FC<CardOfToDosProps> = ({
+  setSelectedDate,
+  selectedDate,
+}) => {
+  // Query all days
   const [input, setInput] = useState('');
-  const { loading, error, data } = useQuery(GET_DAY_TODOS);
-
-  const [addTodo, { error: addError }] = useMutation(CREATE_DAY, {
+  //state с обьектом этого дня из query allDays
+  const { loading, error, data } = useQuery(GET_DAY_TODOS, {
+    variables: { id: selectedDate?.getTime() },
+  }); 
+// ????
+  const [createDay, { error: addError }] = useMutation(CREATE_DAY, {
     update(cache, { data: { createTodo } }) {
       const todos = cache.readQuery<allTodosCache>({
         query: GET_DAY_TODOS,
@@ -51,24 +60,29 @@ const CardOfToDos: FC<CardOfToDosProps> = ({ setSelectedDate }) => {
     },
   });
 
-  const sort = (task: IToDo[]): IToDo[] => {
-    const newTask = [...task];
-    return newTask.sort((a, b) => +a.checked - +b.checked);
+  const sort = (task: IToDo[]): IToDo[] | undefined => {
+    if (task && task.length) {
+      const newTask = [...task];
+      return newTask.sort((a, b) => +a.checked - +b.checked);
+    }
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInput(e.target.value);
   };
 
-  const handleAdd = (): void => {
-    addTodo({
+  const handleCreateDay = (): void => {
+    // if !allDays.find((item => item. dayTime === selectedDay.getTime())) Delaem createDay 
+    createDay({
       variables: {
-        text: input,
-        checked: false,
+        todos: {}
       },
     });
     setInput('');
   };
+  useEffect(() => {
+    handleCreateDay();
+  }, [data]);
 
   return (
     <div className='flex flex-col items-center bg-slate-300 w-3/4 h-1/2 shadow-xl'>
@@ -88,9 +102,7 @@ const CardOfToDos: FC<CardOfToDosProps> = ({ setSelectedDate }) => {
             onChange={e => handleInputChange(e)}
           />
           <div className='cursor-pointer flex justify-center '>
-            <button
-              onClick={handleAdd}
-              className='flex justify-center items-center'>
+            <button className='flex justify-center items-center'>
               <AddCircleOutlineIcon />
             </button>
           </div>
@@ -98,7 +110,7 @@ const CardOfToDos: FC<CardOfToDosProps> = ({ setSelectedDate }) => {
 
         <ul className=''>
           {data &&
-            sort(data.allTodos as IToDo[]).map(item => (
+            sort(data.allTodos as IToDo[])?.map(item => (
               <TodoItem
                 key={item.id}
                 item={item}
