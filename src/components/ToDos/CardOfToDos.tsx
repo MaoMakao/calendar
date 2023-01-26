@@ -23,13 +23,14 @@ const CardOfToDos: FC<CardOfToDosProps> = ({
   setSelectedDate,
   selectedDate,
 }) => {
-  // Query all days
+  const {
+    data: allDays,
+    error: globalError,
+    refetch: refetchAllDays,
+  } = useQuery(GET_ALL_TODOS);
   const [input, setInput] = useState('');
-  //state с обьектом этого дня из query allDays
-  const { loading, error, data } = useQuery(GET_DAY_TODOS, {
-    variables: { id: selectedDate?.getTime() },
-  }); 
-// ????
+  const [currentDay, setCurrentDay] = useState<any>(null);
+
   const [createDay, { error: addError }] = useMutation(CREATE_DAY, {
     update(cache, { data: { createTodo } }) {
       const todos = cache.readQuery<allTodosCache>({
@@ -72,17 +73,25 @@ const CardOfToDos: FC<CardOfToDosProps> = ({
   };
 
   const handleCreateDay = (): void => {
-    // if !allDays.find((item => item. dayTime === selectedDay.getTime())) Delaem createDay 
+    const day = allDays?.find(
+      (item: any) => item.dayTime === selectedDate?.getTime(),
+    );
+    if (day) {
+      setCurrentDay(day);
+      return;
+    }
+
     createDay({
       variables: {
-        todos: {}
+        todos: {},
       },
     });
-    setInput('');
+    refetchAllDays();
   };
+
   useEffect(() => {
     handleCreateDay();
-  }, [data]);
+  }, [allDays]);
 
   return (
     <div className='flex flex-col items-center bg-slate-300 w-3/4 h-1/2 shadow-xl'>
@@ -109,8 +118,8 @@ const CardOfToDos: FC<CardOfToDosProps> = ({
         </div>
 
         <ul className=''>
-          {data &&
-            sort(data.allTodos as IToDo[])?.map(item => (
+          {currentDay &&
+            sort(currentDay.allTodos as IToDo[])?.map(item => (
               <TodoItem
                 key={item.id}
                 item={item}
