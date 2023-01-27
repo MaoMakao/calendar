@@ -26,34 +26,40 @@ const CardOfToDos: FC<CardOfToDosProps> = ({
   const {
     data: allDays,
     error: globalError,
-    refetch: refetchAllDays,
+    
   } = useQuery(GET_ALL_TODOS);
   const [input, setInput] = useState('');
   const [currentDay, setCurrentDay] = useState<any>(null);
 
-  const [createDay, { error: addError }] = useMutation(CREATE_DAY, {
-    update(cache, { data: { createTodo } }) {
-      const todos = cache.readQuery<allTodosCache>({
-        query: GET_DAY_TODOS,
-      })?.allTodos;
+  const [createDay, { error: addError, called }] = useMutation(CREATE_DAY, {
+    update(cache, { data: { createDay } }) {
+      
+      // cache.modify({fields: {
+      
+      // }})
+      const allDays = cache.readQuery<any>({
+        query: GET_ALL_TODOS,
+      })?.allDays;
+      setCurrentDay(createDay);
       cache.writeQuery({
-        query: GET_DAY_TODOS,
+        query: GET_ALL_TODOS,
         data: {
-          allTodos: [createTodo, ...(todos as IToDo[])],
+          allDays: [createDay, ...allDays],
         },
       });
     },
   });
 
-  const [updateTodo, { error: updateError }] = useMutation(UPDATE_TODOS);
 
-  const [removeTodo, { error: removeError }] = useMutation(REMOVE_TODOS, {
-    update(cache, { data: { removeTodo } }) {
+  const [updateDay, { error: updateError }] = useMutation(UPDATE_TODOS);
+
+  const [removeDay, { error: removeError }] = useMutation(REMOVE_TODOS, {
+    update(cache, { data: { removeDay } }) {
       cache.modify({
         fields: {
           allTodos(currentTodos: { __ref: string }[] = []) {
             return currentTodos.filter(
-              todo => todo.__ref !== `Todo:${removeTodo.id}`,
+              todos => todos.__ref !== `Todos:${removeDay.id}`,
             );
           },
         },
@@ -73,25 +79,36 @@ const CardOfToDos: FC<CardOfToDosProps> = ({
   };
 
   const handleCreateDay = (): void => {
-    const day = allDays?.find(
-      (item: any) => item.dayTime === selectedDate?.getTime(),
-    );
-    if (day) {
-      setCurrentDay(day);
-      return;
+    if (allDays ) {
+      // const day = allDays?.allDays?.find(
+      //   (item: any) => item.dayTime === selectedDate?.getTime().toString(),
+      // );
+      // if (day) {
+      //   console.log('kajc');
+      //   setCurrentDay(day);
+      //   return;
+      // }
+      createDay({
+        variables: {
+          todos: [],
+          dayTime: selectedDate?.getTime().toString(),
+        },
+      });
     }
-
-    createDay({
-      variables: {
-        todos: {},
-      },
-    });
-    refetchAllDays();
+    // refetchAllDays(); //???????????
   };
 
   useEffect(() => {
-    handleCreateDay();
+    console.log('useEffect')
+    if (selectedDate && allDays && allDays.allDays?.length && !called) {
+      if(selectedDate?.getTime().toString() === currentDay?.dayTime) return;
+      handleCreateDay();
+    }
+
   }, [allDays]);
+  useEffect(() => {
+    console.log(called)
+  }, [called]);
 
   return (
     <div className='flex flex-col items-center bg-slate-300 w-3/4 h-1/2 shadow-xl'>
@@ -112,7 +129,7 @@ const CardOfToDos: FC<CardOfToDosProps> = ({
           />
           <div className='cursor-pointer flex justify-center '>
             <button className='flex justify-center items-center'>
-              <AddCircleOutlineIcon />
+              <AddCircleOutlineIcon/>
             </button>
           </div>
         </div>
@@ -123,8 +140,8 @@ const CardOfToDos: FC<CardOfToDosProps> = ({
               <TodoItem
                 key={item.id}
                 item={item}
-                handleRemove={removeTodo}
-                handleUpdate={updateTodo}
+                handleRemove={removeDay}
+                handleUpdate={updateDay}
               />
             ))}
         </ul>

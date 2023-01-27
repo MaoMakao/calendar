@@ -51,7 +51,7 @@ export interface IToDo {
 }
 
 export interface allTodosCache {
-  allTodos: IToDo[];
+  allDays: IToDo[];
 }
 
 export interface ITodoItemProps {

@@ -20,7 +20,7 @@ export const GET_DAY_TODOS = gql`
 `;
 
 export const CREATE_DAY = gql`
-  mutation createDay($todos: JSON!, $dayTime: Int!) {
+  mutation createDay($todos: JSON!, $dayTime: String!) {
     createDay(todos: $todos, dayTime: $dayTime) {
       dayTime
       todos
@@ -30,7 +30,7 @@ export const CREATE_DAY = gql`
 `;
 
 export const UPDATE_TODOS = gql`
-  mutation updateDay($id: ID!, $todos: JSON, $dayTime: Int!) {
+  mutation updateDay($id: ID!, $todos: JSON, $dayTime: String!) {
     updateDay(id: $id, todos: $todos, dayTime: $dayTime) {
       todos
       id
