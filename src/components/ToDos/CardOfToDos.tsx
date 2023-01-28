@@ -30,17 +30,14 @@ const CardOfToDos: FC<CardOfToDosProps> = ({
   } = useQuery(GET_ALL_TODOS);
   const [input, setInput] = useState('');
   const [currentDay, setCurrentDay] = useState<any>(null);
+  let loading = false;
 
   const [createDay, { error: addError, called }] = useMutation(CREATE_DAY, {
     update(cache, { data: { createDay } }) {
-      
-      // cache.modify({fields: {
-      
-      // }})
+
       const allDays = cache.readQuery<any>({
         query: GET_ALL_TODOS,
       })?.allDays;
-      setCurrentDay(createDay);
       cache.writeQuery({
         query: GET_ALL_TODOS,
         data: {
@@ -78,37 +75,29 @@ const CardOfToDos: FC<CardOfToDosProps> = ({
     setInput(e.target.value);
   };
 
-  const handleCreateDay = (): void => {
-    if (allDays ) {
-      // const day = allDays?.allDays?.find(
-      //   (item: any) => item.dayTime === selectedDate?.getTime().toString(),
-      // );
-      // if (day) {
-      //   console.log('kajc');
-      //   setCurrentDay(day);
-      //   return;
-      // }
-      createDay({
+  const handleCreateDay = async () => {
+      loading = true;
+     await createDay({
         variables: {
           todos: [],
           dayTime: selectedDate?.getTime().toString(),
         },
       });
-    }
-    // refetchAllDays(); //???????????
+      loading = false;
   };
 
   useEffect(() => {
-    console.log('useEffect')
-    if (selectedDate && allDays && allDays.allDays?.length && !called) {
-      if(selectedDate?.getTime().toString() === currentDay?.dayTime) return;
-      handleCreateDay();
-    }
-
+      if (loading) return;
+      if (selectedDate && allDays && allDays.allDays?.length) {
+        const day = allDays?.allDays.find((day: any) => day.dayTime === selectedDate?.getTime().toString());
+        if(day) {
+          setCurrentDay(day);
+          return;
+        }
+        handleCreateDay();
+      }
   }, [allDays]);
-  useEffect(() => {
-    console.log(called)
-  }, [called]);
+
 
   return (
     <div className='flex flex-col items-center bg-slate-300 w-3/4 h-1/2 shadow-xl'>
