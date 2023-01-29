@@ -1,5 +1,6 @@
 import React, { FC, useState, useEffect, useRef } from "react";
 import { ITodoItemProps, IToDo } from "../../Types";
+import EditIcon from '@mui/icons-material/Edit';
 
 
 const TodoItem: FC<ITodoItemProps> = ({ item, handleRemove, handleUpdate }) => {
@@ -47,7 +48,7 @@ const TodoItem: FC<ITodoItemProps> = ({ item, handleRemove, handleUpdate }) => {
       <div className='todo__edit'>
         <i
           onClick={() => handleTextChange({ id: item.id, text: task, checked: item.checked, time: item.time })}
-          className={edit ? "check icon cursor-pointer" : "pencil alternate icon cursor-pointer"}
+          className={edit ? "check icon cursor-pointer" : "pencil alternate icon cursor-pointer"} 
         />
         <i
           onClick={() => handleRemove({ variables: { id: item.id } })}

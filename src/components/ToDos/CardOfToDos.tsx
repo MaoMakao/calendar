@@ -10,7 +10,7 @@ import {
 } from './../../apollo/ToDos';
 import CachedIcon from '@mui/icons-material/Cached';
 import CloseIcon from '@mui/icons-material/Close';
-import { allTodosCache, IToDo } from '../../Types';
+import { allTodosCache, CurrentType, IToDo } from '../../Types';
 import TodoItem from './ToDoItem';
 import { useEffect } from 'react';
 
@@ -23,18 +23,16 @@ const CardOfToDos: FC<CardOfToDosProps> = ({
   setSelectedDate,
   selectedDate,
 }) => {
-  const {
-    data: allDays,
-    error: globalError,
-    
-  } = useQuery(GET_ALL_TODOS);
+  const { data: allDays, error: globalError } = useQuery(GET_ALL_TODOS);
+
   const [input, setInput] = useState('');
+
   const [currentDay, setCurrentDay] = useState<any>(null);
+
   let loading = false;
 
   const [createDay, { error: addError, called }] = useMutation(CREATE_DAY, {
     update(cache, { data: { createDay } }) {
-
       const allDays = cache.readQuery<any>({
         query: GET_ALL_TODOS,
       })?.allDays;
@@ -47,10 +45,34 @@ const CardOfToDos: FC<CardOfToDosProps> = ({
     },
   });
 
+  const [updateDay, { error: updateError, data }] = useMutation(UPDATE_TODOS, {
+    update(cache, { data: { updateDay } }) {
+      const allDays = cache.readQuery<any>({
+        query: GET_ALL_TODOS,
+      })?.allDays;
+      cache.writeQuery({
+        query: GET_ALL_TODOS,
+        data: {
+          allDays: [
+            updateDay,
 
-  const [updateDay, { error: updateError }] = useMutation(UPDATE_TODOS);
+            ...allDays.map((day: IToDo) => { console.log(updateDay.id)
+              if (day.id === updateDay.id) {
+                return updateDay;
+              } else {
+                return day;
+              }
+              
+            } ),
+          ],
+          
+        },
+      });
+      
+    },
+  });
 
-  const [removeDay, { error: removeError }] = useMutation(REMOVE_TODOS, {
+  const [removeToDo, { error: removeError }] = useMutation(REMOVE_TODOS, {
     update(cache, { data: { removeDay } }) {
       cache.modify({
         fields: {
@@ -76,28 +98,45 @@ const CardOfToDos: FC<CardOfToDosProps> = ({
   };
 
   const handleCreateDay = async () => {
-      loading = true;
-     await createDay({
-        variables: {
-          todos: [],
-          dayTime: selectedDate?.getTime().toString(),
-        },
-      });
-      loading = false;
+    loading = true;
+    await createDay({
+      variables: {
+        todos: [],
+        dayTime: selectedDate?.getTime().toString(),
+      },
+    });
+    loading = false;
   };
 
   useEffect(() => {
-      if (loading) return;
-      if (selectedDate && allDays && allDays.allDays?.length) {
-        const day = allDays?.allDays.find((day: any) => day.dayTime === selectedDate?.getTime().toString());
-        if(day) {
-          setCurrentDay(day);
-          return;
-        }
-        handleCreateDay();
+    if (selectedDate && allDays && allDays.allDays?.length && !loading) {
+      const day = allDays?.allDays.find(
+        (day: any) => day.dayTime === selectedDate?.getTime().toString(),
+      );
+      if (day) {
+        setCurrentDay(day);
+        return;
       }
+      handleCreateDay();
+    }
   }, [allDays]);
 
+  const addToDo = (): void => {
+    setCurrentDay({
+      ...currentDay,
+      todos: [{ checked: false, text: input, id: Number, time: '00:00' }],
+    });
+
+    setInput('');
+
+    updateDay({
+      variables: {
+        todos: currentDay.todos,
+        id: currentDay.id,
+        dayTime: currentDay.dayTime,
+      },
+    });
+  };
 
   return (
     <div className='flex flex-col items-center bg-slate-300 w-3/4 h-1/2 shadow-xl'>
@@ -117,19 +156,21 @@ const CardOfToDos: FC<CardOfToDosProps> = ({
             onChange={e => handleInputChange(e)}
           />
           <div className='cursor-pointer flex justify-center '>
-            <button className='flex justify-center items-center'>
-              <AddCircleOutlineIcon/>
+            <button
+              onClick={addToDo}
+              className='flex justify-center items-center'>
+              <AddCircleOutlineIcon />
             </button>
           </div>
         </div>
 
         <ul className=''>
           {currentDay &&
-            sort(currentDay.allTodos as IToDo[])?.map(item => (
+            sort(currentDay.todos as IToDo[])?.map(item => (
               <TodoItem
                 key={item.id}
                 item={item}
-                handleRemove={removeDay}
+                handleRemove={removeToDo}
                 handleUpdate={updateDay}
               />
             ))}

@@ -32,6 +32,7 @@ export const CREATE_DAY = gql`
 export const UPDATE_TODOS = gql`
   mutation updateDay($id: ID!, $todos: JSON, $dayTime: String!) {
     updateDay(id: $id, todos: $todos, dayTime: $dayTime) {
+      dayTime
       todos
       id
     }

@@ -59,3 +59,10 @@ export interface ITodoItemProps {
   handleRemove: (options: { variables: { id: number } }) => void;
   handleUpdate: (options: { variables: IToDo }) => void;
 }
+
+export type CurrentType = {
+id: number,
+dayTime: string,
+allTodos: IToDo[],
+todos: IToDo[]
+}
