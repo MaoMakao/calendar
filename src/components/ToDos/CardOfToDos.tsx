@@ -53,31 +53,25 @@ const CardOfToDos: FC<CardOfToDosProps> = ({
       cache.writeQuery({
         query: GET_ALL_TODOS,
         data: {
-          allDays: [
-            updateDay,
-
-            ...allDays.map((day: IToDo) => { console.log(updateDay.id)
-              if (day.id === updateDay.id) {
-                return updateDay;
-              } else {
-                return day;
-              }
-              
-            } ),
-          ],
-          
+          allDays: allDays.map((day: IToDo) => {
+            console.log(updateDay);
+            if (day.id === updateDay.id) {
+              return updateDay;
+            } else {
+              return day;
+            }
+          }),
         },
       });
-      
     },
   });
 
-  const [removeToDo, { error: removeError }] = useMutation(REMOVE_TODOS, {
+  const [removeDay, { error: removeError }] = useMutation(REMOVE_TODOS, {
     update(cache, { data: { removeDay } }) {
       cache.modify({
         fields: {
-          allTodos(currentTodos: { __ref: string }[] = []) {
-            return currentTodos.filter(
+          allDays(currentDay: { __ref: string }[] = []) {
+            return currentDay.filter(
               todos => todos.__ref !== `Todos:${removeDay.id}`,
             );
           },
@@ -85,6 +79,10 @@ const CardOfToDos: FC<CardOfToDosProps> = ({
       });
     },
   });
+
+  useEffect(() => {
+    console.log(allDays);
+  }, [allDays]);
 
   const sort = (task: IToDo[]): IToDo[] | undefined => {
     if (task && task.length) {
@@ -122,27 +120,31 @@ const CardOfToDos: FC<CardOfToDosProps> = ({
   }, [allDays]);
 
   const addToDo = (): void => {
-    setCurrentDay({
+    const updatedDay = {
       ...currentDay,
-      todos: [{ checked: false, text: input, id: Number, time: '00:00' }],
-    });
+      todos: [
+        ...currentDay.todos,
+        { checked: false, text: input, id: Date.now(), time: '00:00' },
+      ],
+    };
 
     setInput('');
 
     updateDay({
       variables: {
-        todos: currentDay.todos,
-        id: currentDay.id,
-        dayTime: currentDay.dayTime,
+        todos: updatedDay.todos,
+        id: updatedDay.id,
+        dayTime: updatedDay.dayTime,
       },
     });
+    setCurrentDay(updatedDay);
   };
 
   return (
     <div className='flex flex-col items-center bg-slate-300 w-3/4 h-1/2 shadow-xl'>
       <CloseIcon
         onClick={() => setSelectedDate(null)}
-        className='flex justify-between'
+        className='flex justify-center'
       />
       <div className='mt-5 text-3xl'>Task on day</div>
       <div className='w-5/6 md:w-1/2 lg:w-5/6'>
@@ -170,7 +172,7 @@ const CardOfToDos: FC<CardOfToDosProps> = ({
               <TodoItem
                 key={item.id}
                 item={item}
-                handleRemove={removeToDo}
+                handleRemove={removeDay}
                 handleUpdate={updateDay}
               />
             ))}
