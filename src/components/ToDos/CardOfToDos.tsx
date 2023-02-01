@@ -13,6 +13,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import { allTodosCache, CurrentType, IToDo } from '../../Types';
 import TodoItem from './ToDoItem';
 import { useEffect } from 'react';
+import { TornadoSharp } from '@mui/icons-material';
 
 interface CardOfToDosProps {
   setSelectedDate: React.Dispatch<React.SetStateAction<Date | null>>;
@@ -80,10 +81,6 @@ const CardOfToDos: FC<CardOfToDosProps> = ({
     },
   });
 
-  useEffect(() => {
-    console.log(allDays);
-  }, [allDays]);
-
   const sort = (task: IToDo[]): IToDo[] | undefined => {
     if (task && task.length) {
       const newTask = [...task];
@@ -119,7 +116,7 @@ const CardOfToDos: FC<CardOfToDosProps> = ({
     }
   }, [allDays]);
 
-  const addToDo = (): void => {
+  const addToDo = () => {
     const updatedDay = {
       ...currentDay,
       todos: [
@@ -138,6 +135,24 @@ const CardOfToDos: FC<CardOfToDosProps> = ({
       },
     });
     setCurrentDay(updatedDay);
+  };
+
+  const deleteToDo = (id = currentDay.todos[2].id) => {
+    const deletedToDos = {
+      ...currentDay,
+      todos: currentDay.todos.filter((todos: { id: any }) => todos.id !== id),
+    };
+
+    updateDay({
+      variables: {
+        todos: deletedToDos.todos,
+        id: deletedToDos.id,
+        dayTime: deletedToDos.dayTime,
+      },
+    });
+    console.log(deletedToDos.todos)
+
+    setCurrentDay(deletedToDos);
   };
 
   return (
@@ -172,7 +187,7 @@ const CardOfToDos: FC<CardOfToDosProps> = ({
               <TodoItem
                 key={item.id}
                 item={item}
-                handleRemove={removeDay}
+                handleRemove={deleteToDo}
                 handleUpdate={updateDay}
               />
             ))}

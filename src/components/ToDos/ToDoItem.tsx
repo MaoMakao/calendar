@@ -18,7 +18,7 @@ const TodoItem: FC<ITodoItemProps> = ({ item, handleRemove, handleUpdate }) => {
     e.target.style.height = `${e.target.scrollHeight}px`;
   };
 
-  const handleTextChange = (item: IToDo): void => {
+  const handleTextChange = (item: IToDo) => {
     setEdit(!edit);
     if (edit)
       handleUpdate({
@@ -33,7 +33,7 @@ const TodoItem: FC<ITodoItemProps> = ({ item, handleRemove, handleUpdate }) => {
           onClick={() => handleUpdate({variables: { id: item.id, text: task, checked: !item.checked, time: item.time }})}
           className={`-translate-y-1 cursor-pointer ${
             item.checked ? "check circle icon green" : "circle icon grey"
-          }`}></i>
+          }`}>add</i>
         <textarea
           ref={inputRef}
           disabled={!edit}
@@ -52,7 +52,7 @@ const TodoItem: FC<ITodoItemProps> = ({ item, handleRemove, handleUpdate }) => {
         />
         <i
           onClick={() => handleRemove({ variables: { id: item.id } })}
-          className='trash icon pl-5 cursor-pointer'></i>
+          className='trash icon pl-5 cursor-pointer'>delete</i>
       </div>
     </li>
   );
