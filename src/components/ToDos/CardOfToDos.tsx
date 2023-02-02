@@ -137,7 +137,7 @@ const CardOfToDos: FC<CardOfToDosProps> = ({
     setCurrentDay(updatedDay);
   };
 
-  const deleteToDo = (id = currentDay.todos[2].id) => {
+  const deleteToDo = (id: number | string) => {
     const deletedToDos = {
       ...currentDay,
       todos: currentDay.todos.filter((todos: { id: any }) => todos.id !== id),
@@ -150,7 +150,33 @@ const CardOfToDos: FC<CardOfToDosProps> = ({
         dayTime: deletedToDos.dayTime,
       },
     });
-    console.log(deletedToDos.todos)
+
+    setCurrentDay(deletedToDos);
+  };
+
+  const updateToDo = (
+    id: number | string,
+    text: string,
+    checked: boolean,
+    time?: string,
+  ) => {
+    const deletedToDos = {
+      ...currentDay,
+      todos: currentDay.todos.map((todo: any) => {
+        if (todo.id === id) {
+          return { ...todo, text: text, checked: checked };
+        }
+        return todo;
+      }),
+    };
+
+    updateDay({
+      variables: {
+        todos: deletedToDos.todos,
+        id: deletedToDos.id,
+        dayTime: deletedToDos.dayTime,
+      },
+    });
 
     setCurrentDay(deletedToDos);
   };
@@ -188,7 +214,7 @@ const CardOfToDos: FC<CardOfToDosProps> = ({
                 key={item.id}
                 item={item}
                 handleRemove={deleteToDo}
-                handleUpdate={updateDay}
+                handleUpdate={updateToDo}
               />
             ))}
         </ul>

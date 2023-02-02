@@ -18,19 +18,17 @@ const TodoItem: FC<ITodoItemProps> = ({ item, handleRemove, handleUpdate }) => {
     e.target.style.height = `${e.target.scrollHeight}px`;
   };
 
-  const handleTextChange = (item: IToDo) => {
+  const handleTextChange = (item: IToDo, id, text, checked, time) => {
     setEdit(!edit);
     if (edit)
-      handleUpdate({
-        variables: item ,
-      });
+      handleUpdate(id, text, checked, time );
   };
 
   return (
     <li className='flex min-w-full justify-between items-center px-10 my-3 text-2xl border-2 rounded-md bg-orange-300 shadow-sm py-5'>
       <div className='flex items-center w-2/3'>
         <i
-          onClick={() => handleUpdate({variables: { id: item.id, text: task, checked: !item.checked, time: item.time }})}
+          onClick={() => handleUpdate({ id: item.id, text: task, checked: !item.checked, time: item.time })}
           className={`-translate-y-1 cursor-pointer ${
             item.checked ? "check circle icon green" : "circle icon grey"
           }`}>add</i>
@@ -51,7 +49,7 @@ const TodoItem: FC<ITodoItemProps> = ({ item, handleRemove, handleUpdate }) => {
           className={edit ? "check icon cursor-pointer" : "pencil alternate icon cursor-pointer"} 
         />
         <i
-          onClick={() => handleRemove({ variables: { id: item.id } })}
+          onClick={() => handleRemove( item.id  )}
           className='trash icon pl-5 cursor-pointer'>delete</i>
       </div>
     </li>

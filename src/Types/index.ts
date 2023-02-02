@@ -56,8 +56,8 @@ export interface allTodosCache {
 
 export interface ITodoItemProps {
   item: IToDo;
-  handleRemove: (options: { variables: { id: number } }) => void;
-  handleUpdate: (options: { variables: IToDo }) => void;
+  handleRemove:  (id: number | string) => void;
+  handleUpdate: (id: number | string, text: string, checked: boolean, time?: string) => void;
 }
 
 export type CurrentType = {
