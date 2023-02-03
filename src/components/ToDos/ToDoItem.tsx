@@ -18,7 +18,7 @@ const TodoItem: FC<ITodoItemProps> = ({ item, handleRemove, handleUpdate }) => {
     e.target.style.height = `${e.target.scrollHeight}px`;
   };
 
-  const handleTextChange = (item: IToDo, id, text, checked, time) => {
+  const handleTextChange = (id: number | string, text: string, checked: boolean, time?: string) => {
     setEdit(!edit);
     if (edit)
       handleUpdate(id, text, checked, time );
@@ -28,10 +28,10 @@ const TodoItem: FC<ITodoItemProps> = ({ item, handleRemove, handleUpdate }) => {
     <li className='flex min-w-full justify-between items-center px-10 my-3 text-2xl border-2 rounded-md bg-orange-300 shadow-sm py-5'>
       <div className='flex items-center w-2/3'>
         <i
-          onClick={() => handleUpdate({ id: item.id, text: task, checked: !item.checked, time: item.time })}
+          onClick={() => handleUpdate( item.id,  item.text,  !item.checked,  item.time )}
           className={`-translate-y-1 cursor-pointer ${
             item.checked ? "check circle icon green" : "circle icon grey"
-          }`}>add</i>
+          }`}></i>
         <textarea
           ref={inputRef}
           disabled={!edit}
@@ -45,12 +45,12 @@ const TodoItem: FC<ITodoItemProps> = ({ item, handleRemove, handleUpdate }) => {
       </div>
       <div className='todo__edit'>
         <i
-          onClick={() => handleTextChange({ id: item.id, text: task, checked: item.checked, time: item.time })}
+          onClick={() => handleTextChange(item.id,  task,  item.checked,  item.time)}
           className={edit ? "check icon cursor-pointer" : "pencil alternate icon cursor-pointer"} 
         />
         <i
           onClick={() => handleRemove( item.id  )}
-          className='trash icon pl-5 cursor-pointer'>delete</i>
+          className='trash icon pl-5 cursor-pointer'></i>
       </div>
     </li>
   );
