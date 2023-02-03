@@ -4,6 +4,7 @@ export const GET_ALL_TODOS = gql`
   query allDays {
     allDays {
       id
+      dayTime
       todos
     }
   }
@@ -19,8 +20,9 @@ export const GET_DAY_TODOS = gql`
 `;
 
 export const CREATE_DAY = gql`
-  mutation createDay($todos: JSON!) {
-    createDay(todos: $todos) {
+  mutation createDay($todos: JSON!, $dayTime: String!) {
+    createDay(todos: $todos, dayTime: $dayTime) {
+      dayTime
       todos
       id
     }
@@ -28,15 +30,16 @@ export const CREATE_DAY = gql`
 `;
 
 export const UPDATE_TODOS = gql`
-  mutation updateDay($id: ID!, $todos: JSON) {
-    updateDay(id: $id, todos: $todos) {
+  mutation updateDay($id: ID!, $todos: JSON, $dayTime: String) {
+    updateDay(id: $id, todos: $todos, dayTime: $dayTime) {
+      dayTime
       todos
       id
     }
   }
 `;
 
-export const REMOVE_TODO = gql`
+export const REMOVE_TODOS = gql`
   mutation removeDay($id: ID!) {
     removeDay(id: $id) {
       id

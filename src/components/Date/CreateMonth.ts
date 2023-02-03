@@ -9,7 +9,7 @@ const createMonth = ({
   locale?: string;
   date?: Date;
 }): MonthType => {
-  //Та же хуйня с возвращаемым, и деструктурируй парамс сразу
+ 
 
   const d = createDate({ date, locale });
   const { month: monthName, year, monthNumber, monthIndex } = d;

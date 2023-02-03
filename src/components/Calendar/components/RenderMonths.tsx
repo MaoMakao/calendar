@@ -1,15 +1,9 @@
 import React, { FC } from 'react';
-import { DateType } from '../../../Types';
+import {  RenderMonthProps } from '../../../Types';
 import createDate from '../../Date/CreateDate';
 import getMonthesNames from '../../Date/getMonthesNames';
 
-interface RenderMonthProps {
-  locale: string;
-  selectedMonth: any;
-  selectedYear: number;
-  setSelectedDay: React.Dispatch<React.SetStateAction<DateType>>;
-  setMode: React.Dispatch<React.SetStateAction<'days' | 'monthes' | 'years'>>;
-}
+
 
 const RenderMonths: FC<RenderMonthProps> = ({
   locale,
@@ -24,14 +18,7 @@ const RenderMonths: FC<RenderMonthProps> = ({
       createDate({ date: new Date(selectedYear, monthIndex, dayIndex) }),
     );
   };
-  // monthIndex, year, dayIndex=1
 
-  // const [selectedMonth, setSelectedMonth] = useState(
-  //   createMonth({
-  //     date: new Date(selectedDay.year, selectedDay.monthIndex),
-  //     locale,
-  //   }),
-  // );
   return (
     <div className='font-normal text-black text-center grid grid-cols-3 grid-rows-4 gap-1 text-xs'>
       {getMonthesNames(locale).map(monthesName => {
