@@ -1,21 +1,13 @@
 import React, { FC } from 'react';
-import { DateType, MonthType } from '../../../Types';
 import { checkDateIsEqual } from '../../Date/CheckDateIsEqual';
 import { checkIsToday } from '../../Date/CheckIsToday';
 import createDate from '../../Date/CreateDate';
 import createMonth from '../../Date/CreateMonth';
 import { getMonthNumberOfDays } from '../../Date/getMonthNumberOfDays';
 import { getWeekDaysNames } from '../../Date/getWeekDaysNames';
-import CardOfToDos from './../../ToDos/CardOfToDos';
+import { RenderDaysProps } from './../../../Types/index';
 
-interface RenderDaysProps {
-  locale?: string;
-  setSelectedDate: React.Dispatch<React.SetStateAction<Date | null>>;
-  selectedDay: DateType;
-  selectedMonth: MonthType;
-  selectedYear: number;
-  setSelectedDay: React.Dispatch<React.SetStateAction<DateType>>;
-}
+
 
 const RenderDays: FC<RenderDaysProps> = ({
   locale,
@@ -65,7 +57,6 @@ const RenderDays: FC<RenderDaysProps> = ({
 
     const result = [];
 
-    // Три почти одинаковых цикла, я б подумал как это сократить
     for (let i = 0; i < numberOfPrevDays; i++) {
       const inverted = numberOfPrevDays - i;
       result[i] = prevMonthDays[prevMonthDays.length - inverted];

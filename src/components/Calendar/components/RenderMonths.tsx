@@ -1,15 +1,9 @@
 import React, { FC } from 'react';
-import { DateType } from '../../../Types';
+import {  RenderMonthProps } from '../../../Types';
 import createDate from '../../Date/CreateDate';
 import getMonthesNames from '../../Date/getMonthesNames';
 
-interface RenderMonthProps {
-  locale: string;
-  selectedMonth: any;
-  selectedYear: number;
-  setSelectedDay: React.Dispatch<React.SetStateAction<DateType>>;
-  setMode: React.Dispatch<React.SetStateAction<'days' | 'monthes' | 'years'>>;
-}
+
 
 const RenderMonths: FC<RenderMonthProps> = ({
   locale,

@@ -1,6 +1,6 @@
 import createDate from './CreateDate';
 
-const formatDate = (date: Date, format: string)  => { // !
+const formatDate = (date: Date | null, format: string)  => { 
   const d = createDate({ date });
 
   return format

@@ -4,21 +4,16 @@ import { useQuery, useMutation } from '@apollo/client';
 import {
   CREATE_DAY,
   GET_ALL_TODOS,
-  GET_DAY_TODOS,
   UPDATE_TODOS,
   REMOVE_TODOS,
 } from './../../apollo/ToDos';
-import CachedIcon from '@mui/icons-material/Cached';
 import CloseIcon from '@mui/icons-material/Close';
-import { allTodosCache, CurrentType, IToDo } from '../../Types';
+import { IToDo, CardOfToDosProps } from '../../Types';
 import TodoItem from './ToDoItem';
 import { useEffect } from 'react';
-import { TornadoSharp } from '@mui/icons-material';
+import formatDate from './../Date/formatDate';
 
-interface CardOfToDosProps {
-  setSelectedDate: React.Dispatch<React.SetStateAction<Date | null>>;
-  selectedDate: Date | null;
-}
+
 
 const CardOfToDos: FC<CardOfToDosProps> = ({
   setSelectedDate,
@@ -32,7 +27,7 @@ const CardOfToDos: FC<CardOfToDosProps> = ({
 
   let loading = false;
 
-  const [createDay, { error: addError, called }] = useMutation(CREATE_DAY, {
+  const [createDay, { error: addError }] = useMutation(CREATE_DAY, {
     update(cache, { data: { createDay } }) {
       const allDays = cache.readQuery<any>({
         query: GET_ALL_TODOS,
@@ -46,7 +41,7 @@ const CardOfToDos: FC<CardOfToDosProps> = ({
     },
   });
 
-  const [updateDay, { error: updateError, data }] = useMutation(UPDATE_TODOS, {
+  const [updateDay, { error: updateError }] = useMutation(UPDATE_TODOS, {
     update(cache, { data: { updateDay } }) {
       const allDays = cache.readQuery<any>({
         query: GET_ALL_TODOS,
@@ -55,7 +50,6 @@ const CardOfToDos: FC<CardOfToDosProps> = ({
         query: GET_ALL_TODOS,
         data: {
           allDays: allDays.map((day: IToDo) => {
-            console.log(updateDay);
             if (day.id === updateDay.id) {
               return updateDay;
             } else {
@@ -187,6 +181,10 @@ const CardOfToDos: FC<CardOfToDosProps> = ({
         onClick={() => setSelectedDate(null)}
         className='flex justify-center'
       />
+      <div className='bg-violet-200 text-base text-black rounded-2xl mb-4 '>
+        {formatDate(selectedDate, 'DDD DD MMM YYYY')}
+      </div>
+
       <div className='mt-5 text-3xl'>Task on day</div>
       <div className='w-5/6 md:w-1/2 lg:w-5/6'>
         <div className='flex justify-between text-4xl my-5 p-5 border-2 rounded-md shadow-md'>

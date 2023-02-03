@@ -1,13 +1,9 @@
 import React, { FC } from 'react';
-import { DateType } from '../../../Types';
 import createDate from './../../Date/CreateDate';
 import { getYearsInterval } from './../../Date/getYearsInterval';
+import { RenderYearsProps } from './../../../Types/index';
 
-interface RenderYearsProps {
-  selectedYear: number;
-  setMode: React.Dispatch<React.SetStateAction<'days' | 'monthes' | 'years'>>;
-  setSelectedDay: React.Dispatch<React.SetStateAction<DateType>>;
-}
+
 
 const RenderYears: FC<RenderYearsProps> = ({
   selectedYear,

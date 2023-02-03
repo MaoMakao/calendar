@@ -1,6 +1,5 @@
 import React, { FC, useState, useEffect, useRef } from "react";
-import { ITodoItemProps, IToDo } from "../../Types";
-import EditIcon from '@mui/icons-material/Edit';
+import { ITodoItemProps } from "../../Types";
 
 
 const TodoItem: FC<ITodoItemProps> = ({ item, handleRemove, handleUpdate }) => {

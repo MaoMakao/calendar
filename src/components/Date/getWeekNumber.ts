@@ -1,4 +1,4 @@
-export const getWeekNumber = (date: Date) => { //!
+export const getWeekNumber = (date: Date) => { 
   const firstDayOfYear = new Date(date.getFullYear(), 0, 1);
   const pastDaysyear = (date.getTime() - firstDayOfYear.getTime())/86400000;
 
