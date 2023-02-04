@@ -24,7 +24,7 @@ const TodoItem: FC<ITodoItemProps> = ({ item, handleRemove, handleUpdate }) => {
   };
 
   return (
-    <li className='flex min-w-full justify-between items-center px-10 my-3 text-2xl border-2 rounded-md bg-orange-300 shadow-sm py-5'>
+    <li className='flex min-w-full justify-between items-center px-10 my-3 text-2xl border-2 rounded-xl bg-indigo-100 shadow-sm py-5'>
       <div className='flex items-center w-2/3'>
         <i
           onClick={() => handleUpdate( item.id,  item.text,  !item.checked,  item.time )}

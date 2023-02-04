@@ -176,7 +176,7 @@ const CardOfToDos: FC<CardOfToDosProps> = ({
   };
 
   return (
-    <div className='flex flex-col items-center bg-slate-300 w-3/4 h-1/2 shadow-xl'>
+    <div className='absolute flex flex-col items-center bg-green-100 min-w-fit min-h-[82%] w-3/4 rounded-2xl shadow-xl'>
       <CloseIcon
         onClick={() => setSelectedDate(null)}
         className='flex justify-center'
@@ -186,13 +186,13 @@ const CardOfToDos: FC<CardOfToDosProps> = ({
       </div>
 
       <div className='mt-5 text-3xl'>Task on day</div>
-      <div className='w-5/6 md:w-1/2 lg:w-5/6'>
-        <div className='flex justify-between text-4xl my-5 p-5 border-2 rounded-md shadow-md'>
-          <div className=''></div>
+      <div className='w-5/6 md:w-1/2 lg:w-5/6 min-w-fit min-h-fit'>
+        <div className='flex justify-between text-4xl my-5 p-5 border-2 rounded-md shadow-md bg-slate-50'>
+          
           <input
             placeholder='Write your task'
             type='text'
-            className='outline-none border-b-[1px] text-xl w-full focus:border-b-[3px]'
+            className='outline-none text-xl w-full  bg-slate-50 '
             value={input}
             onChange={e => handleInputChange(e)}
           />

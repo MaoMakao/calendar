@@ -20,7 +20,7 @@ const RenderMonths: FC<RenderMonthProps> = ({
   };
 
   return (
-    <div className='font-normal text-black text-center grid grid-cols-3 grid-rows-4 gap-1 text-xs'>
+    <div className='font-normal text-black text-center grid grid-cols-3 grid-rows-4 gap-1 w-full h-[92%] text-xs'>
       {getMonthesNames(locale).map(monthesName => {
         const isCurrentMonth =
           new Date().getMonth() === monthesName.monthIndex &&
@@ -37,9 +37,9 @@ const RenderMonths: FC<RenderMonthProps> = ({
               setMode('days');
             }}
             className={[
-              'p-2 flex justify-center items-center cursor-pointer rounded-md',
-              isSelectedMonth ? 'text-black bg-white ' : '',
-              isCurrentMonth ? 'bg-white' : '',
+              'p-2 flex justify-center items-center cursor-pointer rounded-md shadow-lg  w-full h-full',
+              isSelectedMonth ? 'text-black bg-slate-200 ' : '',
+              isCurrentMonth ? 'bg-slate-300' : '',
             ].join(' ')}>
             {monthesName.monthShort}
           </div>

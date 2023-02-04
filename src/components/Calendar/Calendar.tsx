@@ -114,16 +114,16 @@ const Calendar: React.FC<CalendarProps> = ({
   };
 
   return (
-    <div className=' flex items-center justify-center flex-col h-3/4 w-3/4'>
+    <div className=' flex items-center justify-center flex-col w-3/4 h-[80%] '>
       <ModeSwitcher setMode={setMode} />
 
-      <div className='w-52 rounded-md capitalize bg-white cursor-pointer'>
+      <div className='w-full h-full rounded-md capitalize bg-white cursor-pointer'>
         <div className='relative rounded-md bg-white text-black  p-2 flex justify-between items-center shadow-md'>
           <img
             alt='AA'
             src={arrowLeft}
             aria-hidden
-            className='w-2 h-4 cursor-pointer bg-gradient-to-t '
+            className=' cursor-pointer bg-gradient-to-t '
             onClick={() => onClickArrow[mode](-1)} 
           />
           {mode === 'days' && (
@@ -151,7 +151,7 @@ const Calendar: React.FC<CalendarProps> = ({
             alt='AA'
             src={arrowLeft}
             aria-hidden
-            className='w-2 h-4 cursor-pointer  rotate-180'
+            className=' cursor-pointer  rotate-180'
             onClick={() => onClickArrow[mode](1)}
           />
         </div>

@@ -88,7 +88,7 @@ const RenderDays: FC<RenderDaysProps> = ({
           <div key={weekDaysName.dayShort}>{weekDaysName.dayShort}</div>
         ))}
       </div>
-      <div className='text-xs font-normal text-center items-center grid grid-cols-7 grid-rows-1 gap-1'>
+      <div className='text-xs font-normal text-center items-center grid grid-cols-7 grid-rows-6 h-[92%] gap-1'>
         {calendarDays().map(day => {
           const isToday = checkIsToday(day);
           const isSelectedDay = checkDateIsEqual(day, selectedDay.date);
@@ -102,9 +102,9 @@ const RenderDays: FC<RenderDaysProps> = ({
                 setSelectedDay(createDate({ date: day }));
               }}
               className={[
-                'rounded-md p-1 cursor-pointer',
+                'rounded-md p-1 cursor-pointer w-full h-full flex items-center justify-center shadow-lg',
                 isToday ? 'bg-violet-300' : '',
-                isSelectedDay ? 'bg-red-600 text-black' : '',
+                isSelectedDay ? 'bg-slate-300 text-black' : '',
                 isAdditionalDay
                   ? 'p-1 font-light cursor-pointer text-black'
                   : '',
