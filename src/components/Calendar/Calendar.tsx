@@ -8,13 +8,9 @@ import RenderMonths from './components/RenderMonths';
 import RenderYears from './components/RenderYears';
 import getMonthesNames from './../Date/getMonthesNames';
 import { getYearsInterval } from './../Date/getYearsInterval';
+import { CalendarProps } from '../../Types';
 
-interface CalendarProps {
-  locale?: string;
-  selectedDate: Date;
-  setSelectedDate: React.Dispatch<React.SetStateAction<Date>>;
-  firstWeekDayNumber?: number;
-}
+
 
 const Calendar: React.FC<CalendarProps> = ({
   locale = 'default',
@@ -25,7 +21,7 @@ const Calendar: React.FC<CalendarProps> = ({
   const [mode, setMode] = useState<'days' | 'monthes' | 'years'>('monthes');
 
   const [selectedDay, setSelectedDay] = useState(
-    createDate({ date: selectedDate }),
+    createDate({ date: new Date()}),
   );
 
   const selectedMonth = createMonth({
@@ -118,17 +114,17 @@ const Calendar: React.FC<CalendarProps> = ({
   };
 
   return (
-    <div>
+    <div className=' flex items-center justify-center flex-col w-3/4 h-[80%] '>
       <ModeSwitcher setMode={setMode} />
 
-      <div className='w-52 rounded-md capitalize bg-white'>
+      <div className='w-full h-full rounded-md capitalize bg-white cursor-pointer'>
         <div className='relative rounded-md bg-white text-black  p-2 flex justify-between items-center shadow-md'>
           <img
             alt='AA'
             src={arrowLeft}
             aria-hidden
-            className='w-2 h-4 cursor-pointer bg-gradient-to-t '
-            onClick={() => onClickArrow[mode](-1)} // Тут из объекта достаешь переключалку для конкретного режима и даешь ей допустим -1
+            className=' cursor-pointer bg-gradient-to-t '
+            onClick={() => onClickArrow[mode](-1)} 
           />
           {mode === 'days' && (
             <div aria-hidden>
@@ -155,11 +151,10 @@ const Calendar: React.FC<CalendarProps> = ({
             alt='AA'
             src={arrowLeft}
             aria-hidden
-            className='w-2 h-4 cursor-pointer  rotate-180'
+            className=' cursor-pointer  rotate-180'
             onClick={() => onClickArrow[mode](1)}
           />
         </div>
-        {/* <div className='rounded-md p-2'> */}
 
         {renderComponents[mode]}
       </div>

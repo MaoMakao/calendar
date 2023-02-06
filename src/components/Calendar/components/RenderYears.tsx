@@ -1,13 +1,9 @@
 import React, { FC } from 'react';
-import { DateType } from '../../../Types';
 import createDate from './../../Date/CreateDate';
 import { getYearsInterval } from './../../Date/getYearsInterval';
+import { RenderYearsProps } from './../../../Types/index';
 
-interface RenderYearsProps {
-  selectedYear: number;
-  setMode: React.Dispatch<React.SetStateAction<'days' | 'monthes' | 'years'>>;
-  setSelectedDay: React.Dispatch<React.SetStateAction<DateType>>;
-}
+
 
 const RenderYears: FC<RenderYearsProps> = ({
   selectedYear,
@@ -24,10 +20,9 @@ const RenderYears: FC<RenderYearsProps> = ({
 
   const selectedYearInterval = getYearsInterval(selectedYear);
   return (
-    <div>
-      {
-        <div className='font-normal text-black text-center grid grid-cols-3 grid-rows-4 gap-1 text-xs'>
-          <div className='font-light p-2 text-black'>
+    
+        <div className='font-normal text-black text-center grid grid-cols-3 grid-rows-4 gap-1 text-xs w-full h-[92%] '>
+          <div className='font-light p-2 text-black w-full h-full flex items-center justify-center shadow-lg'>
             {selectedYearInterval[0] - 1}
           </div>
           {selectedYearInterval.map(year => {
@@ -43,20 +38,19 @@ const RenderYears: FC<RenderYearsProps> = ({
                   updateSelectedYear(year);
                 }}
                 className={[
-                  'bg-white',
-                  isCurrentYear ? 'bg-blue-500' : '',
-                  isSelectedYear ? 'text-black bg-red-600' : '',
+                  ' w-full h-full flex items-center justify-center shadow-lg',
+                  isCurrentYear ? 'bg-slate-300' : '',
+                  isSelectedYear ? 'text-black bg-slate-200' : '',
                 ].join(' ')}>
                 {year}
               </div>
             );
           })}
-          <div className='font-light p-2 text-black'>
+          <div className='font-light p-2 text-black w-full h-full flex items-center justify-center shadow-lg '>
             {selectedYearInterval[selectedYearInterval.length - 1] + 1}
           </div>
         </div>
-      }
-    </div>
+  
   );
 };
 
